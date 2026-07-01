@@ -8,11 +8,16 @@ connectDB();
 
 const app = express();
 
-// CORS — allow any localhost / 127.0.0.1 origin in development
+// CORS — allow localhost in development and production deployed frontends
 app.use(cors({
   origin: (origin, callback) => {
-    // Allow requests with no origin (curl, Postman) or any localhost port
-    if (!origin || /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) {
+    // Allow requests with no origin (curl, Postman)
+    // Also allow localhost, Netlify, and Render frontends
+    if (!origin || 
+        /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin) ||
+        /\.netlify\.app$/.test(origin) ||
+        /\.onrender\.com$/.test(origin) ||
+        origin === 'http://localhost:3000') {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
