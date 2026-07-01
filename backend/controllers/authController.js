@@ -5,21 +5,42 @@ const Otp = require('../models/Otp');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
+const dns = require('dns');
+const { promisify } = require('util');
+
+const resolve4 = promisify(dns.resolve4);
 
 const generateToken = (id) => jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' });
 
-const makeTransporter = () =>
-  nodemailer.createTransport({
-    host: 'smtp.gmail.com',
+// nodemailer's `family` option is not honored by its SMTP connection logic: it always
+// resolves both A/AAAA records and, on failure, falls back to retrying the other
+// addresses it found - including IPv6 ones. Render's containers can't route IPv6
+// egress, so that fallback fails with ENETUNREACH. Resolving the IPv4 address
+// ourselves and connecting to it directly avoids nodemailer ever seeing an AAAA record.
+const makeTransporter = async () => {
+  let host = 'smtp.gmail.com';
+  try {
+    const addresses = await resolve4('smtp.gmail.com');
+    if (addresses.length) host = addresses[0];
+  } catch {
+    // fall back to the hostname if DNS resolution fails here too
+  }
+
+  return nodemailer.createTransport({
+    host,
     port: 465,
     secure: true,
-    family: 4,
+    tls: {
+      // required when connecting by IP so the certificate check still matches Gmail's cert
+      servername: 'smtp.gmail.com',
+    },
     auth: {
       user: process.env.EMAIL_USER?.trim(),
       // Gmail app passwords are sometimes stored with spaces for readability.
       pass: process.env.EMAIL_PASS?.replace(/\s+/g, ''),
     },
   });
+};
 
 exports.sendOtp = async (req, res) => {
   const email = req.body.email?.toLowerCase().trim();
@@ -38,7 +59,7 @@ exports.sendOtp = async (req, res) => {
       process.env.EMAIL_PASS !== 'your_app_password_here';
 
     if (emailConfigured) {
-      const transporter = makeTransporter();
+      const transporter = await makeTransporter();
       await transporter.sendMail({
         from: `"Fitness Manager" <${process.env.EMAIL_USER}>`,
         to: email,
