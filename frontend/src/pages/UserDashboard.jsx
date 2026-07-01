@@ -21,13 +21,15 @@ const TABS = [
   { key: 'find-trainer', label: 'Find Trainer',  icon: '🔍' },
   { key: 'my-trainer',   label: 'My Trainer',    icon: '🤝' },
   { key: 'exercises',    label: 'My Exercises',  icon: '🏋️' },
+  { key: 'diet-plans',   label: 'Diet Plans',    icon: '🥗' },
+  { key: 'profile',      label: 'My Profile',    icon: '👤' },
 ];
 
 // ─── FloatingParticles ───────────────────────────────────────────────────────
 const FloatingParticles = ({ count = 12, className = '' }) => (
   <div className={`absolute inset-0 overflow-hidden pointer-events-none ${className}`}>
     {Array.from({ length: count }).map((_, i) => {
-      const colors = ['bg-indigo-300', 'bg-purple-300', 'bg-pink-300', 'bg-blue-300'];
+      const colors = ['bg-[#33B8D4]', 'bg-[#66CCE0]', 'bg-cyan-300', 'bg-blue-300'];
       const size = 2 + Math.random() * 5;
       return (
         <motion.div
@@ -95,7 +97,7 @@ const StatCard = ({ label, value, icon, gradient, bg, border, bar }) => (
         ],
       }}
       transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-      className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm overflow-hidden relative"
+      className="bg-white rounded-3xl p-6 border border-[#E2E8F0] shadow-sm overflow-hidden relative"
     >
       <div className={`absolute -top-6 -right-6 w-24 h-24 rounded-full bg-gradient-to-br ${gradient} opacity-5`} />
       <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${gradient} flex items-center justify-center text-xl shadow-md`}>
@@ -105,7 +107,7 @@ const StatCard = ({ label, value, icon, gradient, bg, border, bar }) => (
         whileInView={{ scale: [0.8, 1.05, 1] }}
         viewport={{ once: true }}
         transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-        className="text-3xl font-black bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mt-4"
+        className="text-3xl font-black text-[#36a8cd] mt-4"
       >
         <SpringCounter value={value} />
       </motion.h3>
@@ -137,7 +139,7 @@ const statGridVariants = {
 const OverviewTab = ({ userName, quote, quoteLoading }) => {
   const stats = [
     { label: 'Active Streak',  value: '3 Days', icon: '🔥', gradient: 'from-orange-400 to-rose-500',  bg: 'from-orange-50 to-rose-50',   border: 'border-orange-100',  bar: '43%' },
-    { label: 'Workouts Done',  value: '12',     icon: '💪', gradient: 'from-indigo-500 to-purple-600', bg: 'from-indigo-50 to-purple-50', border: 'border-indigo-100', bar: '60%' },
+    { label: 'Workouts Done',  value: '12',     icon: '💪', gradient: 'from-[#36a8cd] to-[#2089ab]', bg: 'from-[#EFF9FD] to-[#D0EEF8]', border: 'border-[#36a8cd]/20', bar: '60%' },
     { label: 'Total Time',     value: '4h 30m', icon: '⏱️', gradient: 'from-emerald-400 to-teal-500', bg: 'from-emerald-50 to-teal-50',  border: 'border-emerald-100', bar: '75%' },
   ];
   return (
@@ -152,29 +154,29 @@ const OverviewTab = ({ userName, quote, quoteLoading }) => {
       </motion.div>
 
       {/* Quote */}
-      <div className="bg-gradient-to-r from-indigo-50 to-purple-50 border-l-4 border-indigo-500 rounded-2xl p-6 relative overflow-hidden">
+      <div className="bg-[#EFF9FD] border-l-4 border-[#36a8cd] rounded-2xl p-6 relative overflow-hidden">
         <div className="absolute top-3 right-4 text-7xl opacity-5 font-serif leading-none select-none">"</div>
         <div className="flex items-center gap-2 mb-4">
-          <span className="w-2 h-2 rounded-full bg-indigo-400 animate-pulse" />
-          <span className="text-xs font-bold text-indigo-500 uppercase tracking-wide">Daily Motivation · DummyJSON API</span>
+          <span className="w-2 h-2 rounded-full bg-[#36a8cd] animate-pulse" />
+          <span className="text-xs font-bold text-[#36a8cd] uppercase tracking-wide">Daily Motivation · DummyJSON API</span>
         </div>
         {quoteLoading ? (
           <div className="space-y-2">
             <motion.div
               animate={{ opacity: [0.4, 0.8, 0.4] }}
               transition={{ duration: 1.5, repeat: Infinity }}
-              className="h-4 rounded-lg bg-indigo-100/70 w-4/5"
+              className="h-4 rounded-lg bg-[#36a8cd]/20 w-4/5"
             />
             <motion.div
               animate={{ opacity: [0.4, 0.8, 0.4] }}
               transition={{ duration: 1.5, repeat: Infinity, delay: 0.2 }}
-              className="h-4 rounded-lg bg-indigo-100/70 w-2/3"
+              className="h-4 rounded-lg bg-[#36a8cd]/20 w-2/3"
             />
           </div>
         ) : quote ? (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             <p className="text-gray-700 text-lg font-medium leading-relaxed italic mb-3">"{quote.quote}"</p>
-            <p className="text-indigo-600 font-semibold text-sm">— {quote.author}</p>
+            <p className="text-[#36a8cd] font-semibold text-sm">— {quote.author}</p>
           </motion.div>
         ) : null}
       </div>
@@ -241,10 +243,10 @@ const FindTrainerTab = ({ myTrainer, onSelect }) => {
   );
 
   if (trainers.length === 0) return (
-    <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-16 text-center">
+    <div className="bg-white rounded-3xl border border-[#E2E8F0] shadow-sm p-16 text-center">
       <div className="text-5xl mb-4">🔍</div>
-      <p className="text-gray-900 font-bold text-lg mb-1">No trainers available yet</p>
-      <p className="text-gray-500 text-sm">Check back soon — new trainers are being added.</p>
+      <p className="text-[#0F172A] font-bold text-lg mb-1">No trainers available yet</p>
+      <p className="text-[#475569] text-sm">Check back soon — new trainers are being added.</p>
     </div>
   );
 
@@ -267,8 +269,8 @@ const FindTrainerTab = ({ myTrainer, onSelect }) => {
                 variants={trainerCardVariants}
                 className={`bg-white rounded-2xl p-5 border transition-all duration-200 ${
                   isSelected
-                    ? 'border-indigo-300 shadow-md shadow-indigo-100/50'
-                    : 'border-gray-100 shadow-sm hover:border-indigo-100'
+                    ? 'border-[#36a8cd] shadow-md shadow-[#36a8cd]/15'
+                    : 'border-[#E2E8F0] shadow-sm hover:border-[#36a8cd]/30'
                 }`}
               >
                 <div className="flex items-start justify-between gap-3">
@@ -276,21 +278,21 @@ const FindTrainerTab = ({ myTrainer, onSelect }) => {
                     <motion.div
                       animate={{
                         boxShadow: [
-                          '0 4px 15px rgba(99,102,241,0.2)',
-                          '0 8px 30px rgba(139,92,246,0.4)',
-                          '0 4px 15px rgba(99,102,241,0.2)',
+                          '0 4px 15px rgba(54,168,205,0.2)',
+                          '0 8px 30px rgba(54,168,205,0.4)',
+                          '0 4px 15px rgba(54,168,205,0.2)',
                         ],
                       }}
                       transition={{ duration: 2.5, repeat: Infinity }}
-                      className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-lg font-black flex-shrink-0"
+                      className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#36a8cd] to-[#2089ab] flex items-center justify-center text-white text-lg font-black flex-shrink-0"
                     >
                       {t.name?.charAt(0).toUpperCase()}
                     </motion.div>
                     <div>
-                      <p className="text-base font-bold text-gray-900">{t.name}</p>
-                      <p className="text-xs text-gray-400 mt-0.5">{t.email}</p>
+                      <p className="text-base font-bold text-[#0F172A]">{t.name}</p>
+                      <p className="text-xs text-[#94A3B8] mt-0.5">{t.email}</p>
                       {t.specialization && (
-                        <span className="inline-flex items-center mt-1.5 text-xs font-bold px-2.5 py-1 rounded-full border bg-purple-50 text-purple-700 border-purple-100">
+                        <span className="inline-flex items-center mt-1.5 text-xs font-bold px-2.5 py-1 rounded-full border bg-[#EFF9FD] text-[#36a8cd] border-[#36a8cd]/20">
                           {t.specialization}
                         </span>
                       )}
@@ -298,7 +300,7 @@ const FindTrainerTab = ({ myTrainer, onSelect }) => {
                   </div>
 
                   {isSelected ? (
-                    <span className="flex-shrink-0 text-xs font-bold px-2.5 py-1 rounded-full border inline-flex items-center gap-1 bg-indigo-50 text-indigo-700 border-indigo-200">
+                    <span className="flex-shrink-0 text-xs font-bold px-2.5 py-1 rounded-full border inline-flex items-center gap-1 bg-[#EFF9FD] text-[#36a8cd] border-[#36a8cd]/20">
                       ✓ My Trainer
                     </span>
                   ) : (
@@ -307,7 +309,7 @@ const FindTrainerTab = ({ myTrainer, onSelect }) => {
                       whileTap={{ scale: 0.96 }}
                       onClick={() => handleSelect(t)}
                       disabled={selecting === t._id}
-                      className="flex-shrink-0 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-sm font-bold px-4 py-2 rounded-xl shadow-md hover:shadow-lg transition-all disabled:opacity-60"
+                      className="flex-shrink-0 bg-gradient-to-r from-[#36a8cd] to-[#2089ab] text-white text-sm font-bold px-4 py-2 rounded-xl shadow-md hover:shadow-lg transition-all disabled:opacity-60"
                     >
                       {selecting === t._id ? (
                         <span className="flex items-center gap-1.5">
@@ -394,7 +396,7 @@ const MyTrainerTab = ({ myTrainer }) => {
   };
 
   if (!myTrainer) return (
-    <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-16 text-center">
+    <div className="bg-white rounded-3xl border border-[#E2E8F0] shadow-sm p-16 text-center">
       <div className="text-5xl mb-4">🔍</div>
       <p className="text-gray-900 font-bold text-lg mb-1">No trainer selected yet</p>
       <p className="text-gray-400 text-sm">Go to the <strong className="text-gray-600">Find Trainer</strong> tab to choose one.</p>
@@ -408,7 +410,7 @@ const MyTrainerTab = ({ myTrainer }) => {
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.4, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-        className="bg-gradient-to-br from-slate-900 to-indigo-900 rounded-3xl p-6 text-white flex items-center gap-4"
+        className="bg-gradient-to-br from-[#0A0F1E] via-[#0F172A] to-[#0D1B26] rounded-3xl p-6 text-white flex items-center gap-4"
       >
         <div className="w-14 h-14 rounded-2xl bg-white/15 border border-white/20 flex items-center justify-center text-white font-black text-2xl flex-shrink-0">
           {myTrainer.name?.charAt(0)}
@@ -430,7 +432,7 @@ const MyTrainerTab = ({ myTrainer }) => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-        className="flex gap-1 bg-white border border-gray-100 rounded-2xl p-1.5 shadow-sm w-fit"
+        className="flex gap-1 bg-white border border-[#E2E8F0] rounded-2xl p-1.5 shadow-sm w-fit"
       >
         {[{ key: 'chat', label: '💬 Chat' }, { key: 'book', label: '📅 Book Appointment' }, { key: 'apts', label: '🗓️ My Appointments' }].map(s => (
           <button
@@ -438,8 +440,8 @@ const MyTrainerTab = ({ myTrainer }) => {
             onClick={() => setSection(s.key)}
             className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all whitespace-nowrap ${
               section === s.key
-                ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md'
-                : 'text-gray-600 hover:bg-gray-100'
+                ? 'bg-[#36a8cd] text-white shadow-md'
+                : 'text-[#475569] hover:bg-[#EFF9FD] hover:text-[#36a8cd]'
             }`}
           >
             {s.label}
@@ -455,13 +457,13 @@ const MyTrainerTab = ({ myTrainer }) => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden flex flex-col"
+            className="bg-white rounded-3xl border border-[#E2E8F0] shadow-sm overflow-hidden flex flex-col"
             style={{ height: 420 }}
           >
             {/* Chat header */}
-            <div className="bg-slate-50 border-b border-gray-100 px-5 py-4 flex items-center gap-2.5">
+            <div className="bg-[#F8FAFC] border-b border-[#E2E8F0] px-5 py-4 flex items-center gap-2.5">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="text-sm font-bold text-gray-700">Chat with {myTrainer.name}</span>
+              <span className="text-sm font-bold text-[#0F172A]">Chat with {myTrainer.name}</span>
             </div>
 
             {/* Messages area */}
@@ -485,11 +487,11 @@ const MyTrainerTab = ({ myTrainer }) => {
                   >
                     <div className={`text-sm ${
                       isMine
-                        ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-2xl rounded-tr-sm px-4 py-2.5 max-w-xs ml-auto'
-                        : 'bg-gray-100 text-gray-800 rounded-2xl rounded-tl-sm px-4 py-2.5 max-w-xs'
+                        ? 'bg-[#36a8cd] text-white rounded-2xl rounded-tr-sm px-4 py-2.5 max-w-xs ml-auto'
+                        : 'bg-[#F1F5F9] text-[#0F172A] rounded-2xl rounded-tl-sm px-4 py-2.5 max-w-xs border border-[#E2E8F0]'
                     }`}>
                       <p>{msg.content}</p>
-                      <span className={`text-[10px] block mt-1 ${isMine ? 'text-indigo-200' : 'text-gray-400'}`}>
+                      <span className={`text-[10px] block mt-1 ${isMine ? 'text-white/70' : 'text-[#94A3B8]'}`}>
                         {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </span>
                     </div>
@@ -500,19 +502,19 @@ const MyTrainerTab = ({ myTrainer }) => {
             </div>
 
             {/* Input bar */}
-            <form onSubmit={sendMessage} className="bg-gray-50 border-t border-gray-100 px-4 py-3 flex gap-2">
+            <form onSubmit={sendMessage} className="bg-[#F8FAFC] border-t border-[#E2E8F0] px-4 py-3 flex gap-2">
               <input
                 value={newMessage}
                 onChange={e => setNewMessage(e.target.value)}
                 placeholder="Type a message..."
-                className="flex-1 bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all"
+                className="flex-1 bg-white border border-[#E2E8F0] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#36a8cd]/20 focus:border-[#36a8cd] transition-all"
               />
               <motion.button
                 type="submit"
                 disabled={!newMessage.trim()}
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
-                className="px-5 py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-bold text-sm shadow-md disabled:opacity-50 transition-all"
+                className="px-5 py-2.5 bg-[#36a8cd] hover:bg-[#2089ab] text-white rounded-xl font-bold text-sm shadow-sm disabled:opacity-50 transition-all"
               >
                 Send
               </motion.button>
@@ -527,7 +529,7 @@ const MyTrainerTab = ({ myTrainer }) => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm max-w-md"
+            className="bg-white rounded-3xl p-6 border border-[#E2E8F0] shadow-sm max-w-md"
           >
             <h3 className="font-black text-gray-900 mb-5 text-xl">Book a Session with {myTrainer.name}</h3>
             <AnimatePresence>
@@ -554,7 +556,7 @@ const MyTrainerTab = ({ myTrainer }) => {
                   value={aptDate}
                   onChange={e => setAptDate(e.target.value)}
                   min={new Date().toISOString().slice(0, 16)}
-                  className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all"
+                  className="w-full bg-white border border-[#E2E8F0] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#36a8cd]/20 focus:border-[#36a8cd] transition-all"
                 />
               </div>
               <div>
@@ -564,7 +566,7 @@ const MyTrainerTab = ({ myTrainer }) => {
                   onChange={e => setAptNotes(e.target.value)}
                   placeholder="E.g. I want to focus on upper body strength..."
                   rows={3}
-                  className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all resize-none"
+                  className="w-full bg-white border border-[#E2E8F0] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#36a8cd]/20 focus:border-[#36a8cd] transition-all resize-none"
                 />
               </div>
               <motion.button
@@ -572,7 +574,7 @@ const MyTrainerTab = ({ myTrainer }) => {
                 disabled={aptLoading}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold shadow-md disabled:opacity-60 transition-all"
+                className="w-full py-3 rounded-xl bg-gradient-to-r from-[#36a8cd] to-[#2089ab] text-white font-bold shadow-md disabled:opacity-60 transition-all"
               >
                 {aptLoading ? 'Sending...' : 'Send Appointment Request'}
               </motion.button>
@@ -590,7 +592,7 @@ const MyTrainerTab = ({ myTrainer }) => {
             className="space-y-3"
           >
             {myApts.length === 0 ? (
-              <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-12 text-center">
+              <div className="bg-white rounded-3xl border border-[#E2E8F0] shadow-sm p-12 text-center">
                 <div className="text-4xl mb-3">📭</div>
                 <p className="text-gray-900 font-bold mb-1">No appointments yet</p>
                 <p className="text-gray-400 text-sm">Book your first session using the Book Appointment tab.</p>
@@ -601,7 +603,7 @@ const MyTrainerTab = ({ myTrainer }) => {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05, ease: [0.22, 1, 0.36, 1] }}
-                className="flex items-center justify-between p-4 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all"
+                className="flex items-center justify-between p-4 bg-white rounded-2xl border border-[#E2E8F0] shadow-sm hover:shadow-md transition-all"
               >
                 <div>
                   <p className="font-bold text-gray-900 text-sm">
@@ -682,7 +684,7 @@ const ExercisesTab = () => {
   );
 
   if (workouts.length === 0) return (
-    <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-16 text-center">
+    <div className="bg-white rounded-3xl border border-[#E2E8F0] shadow-sm p-16 text-center">
       <div className="text-5xl mb-4">📋</div>
       <p className="text-gray-900 font-bold text-lg mb-1">No exercises assigned yet</p>
       <p className="text-gray-400 text-sm">Your trainer will assign exercises after you connect.</p>
@@ -724,10 +726,10 @@ const ExercisesTab = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.1 }}
             transition={{ duration: 0.4, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden"
+            className="bg-white rounded-3xl border border-[#E2E8F0] shadow-sm overflow-hidden"
           >
             {/* Plan header — gradient with shimmer */}
-            <div className={`bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-4 flex items-start justify-between relative overflow-hidden`}>
+            <div className="bg-gradient-to-r from-[#36a8cd] to-[#2089ab] px-6 py-4 flex items-start justify-between relative overflow-hidden">
               <motion.div
                 className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"
                 animate={{ x: ['-100%', '200%'] }}
@@ -735,7 +737,7 @@ const ExercisesTab = () => {
               />
               <div className="relative z-10">
                 <h4 className="font-black text-white text-base">{w.title}</h4>
-                <p className="text-indigo-200 text-xs mt-0.5">
+                <p className="text-[#A5F3FC] text-xs mt-0.5">
                   From: {w.trainer?.name || 'Your Trainer'} · {new Date(w.date).toLocaleDateString()}
                 </p>
               </div>
@@ -753,7 +755,7 @@ const ExercisesTab = () => {
               {total > 0 && (
                 <div className="bg-gray-200 rounded-full h-2 overflow-hidden mb-4">
                   <motion.div
-                    className="h-full bg-gradient-to-r from-indigo-500 to-emerald-500 rounded-full"
+                    className="h-full bg-gradient-to-r from-[#36a8cd] to-[#10B981] rounded-full"
                     initial={{ width: 0 }}
                     animate={{ width: `${pct}%` }}
                     transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
@@ -798,7 +800,7 @@ const ExercisesTab = () => {
                                 <motion.div
                                   animate={{ rotate: 360 }}
                                   transition={{ duration: 0.7, repeat: Infinity, ease: 'linear' }}
-                                  className="w-5 h-5 border-2 border-indigo-400 border-t-transparent rounded-full mx-auto"
+                                  className="w-5 h-5 border-2 border-[#36a8cd] border-t-transparent rounded-full mx-auto"
                                 />
                               ) : ex.completed ? (
                                 <motion.button
@@ -820,7 +822,7 @@ const ExercisesTab = () => {
                                 <motion.button
                                   whileTap={{ scale: 0.85 }}
                                   onClick={() => toggleExercise(w, j)}
-                                  className="w-6 h-6 border-2 border-gray-300 rounded hover:border-indigo-400 flex items-center justify-center mx-auto bg-white transition-all"
+                                  className="w-6 h-6 border-2 border-[#E2E8F0] rounded hover:border-[#36a8cd] flex items-center justify-center mx-auto bg-white transition-all"
                                   title="Mark as done"
                                 />
                               )}
@@ -834,6 +836,124 @@ const ExercisesTab = () => {
               ) : (
                 <p className="text-sm text-gray-400 italic">No specific exercises listed — check with your trainer.</p>
               )}
+            </div>
+          </motion.div>
+        );
+      })}
+    </motion.div>
+  );
+};
+
+// ─── Diet Plans Tab ───────────────────────────────────────────────────────────
+const DietPlansTab = () => {
+  const [plans, setPlans] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [expanded, setExpanded] = useState(null);
+
+  useEffect(() => {
+    axios.get(`${API}/diet-plans/my`, getAuth())
+      .then(r => setPlans(r.data))
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  const STATUS_STYLE = {
+    pending:  { bar: 'bg-amber-400',   badge: 'bg-amber-50 text-amber-700 border-amber-200',   label: '⏳ Awaiting Trainer Review' },
+    approved: { bar: 'bg-emerald-500', badge: 'bg-emerald-50 text-emerald-700 border-emerald-200', label: '✅ Approved by Trainer' },
+    rejected: { bar: 'bg-rose-500',    badge: 'bg-rose-50 text-rose-600 border-rose-200',       label: '❌ Needs Revision' },
+  };
+
+  if (loading) return (
+    <div className="space-y-3">
+      {[1,2,3].map(i => (
+        <div key={i} className="h-24 rounded-2xl overflow-hidden relative bg-gray-100">
+          <motion.div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent"
+            animate={{ x: ['-100%', '200%'] }} transition={{ duration: 1.5, repeat: Infinity, ease: 'linear', delay: i * 0.2 }} />
+        </div>
+      ))}
+    </div>
+  );
+
+  if (plans.length === 0) return (
+    <div className="bg-white rounded-3xl border border-[#E2E8F0] shadow-sm p-16 text-center">
+      <div className="text-5xl mb-4">🥗</div>
+      <p className="text-gray-900 font-bold text-lg mb-1">No diet plans yet</p>
+      <p className="text-gray-400 text-sm">Your trainer will generate a personalised diet plan and send it here for you.</p>
+    </div>
+  );
+
+  return (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
+      <p className="text-sm text-gray-500 font-medium px-1">
+        {plans.length} plan{plans.length !== 1 ? 's' : ''} — trainer-approved plans appear here once reviewed.
+      </p>
+      {plans.map((p, i) => {
+        const st = STATUS_STYLE[p.status] || STATUS_STYLE.pending;
+        const isOpen = expanded === p._id;
+        return (
+          <motion.div
+            key={p._id}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
+            className="bg-white rounded-3xl border border-[#E2E8F0] shadow-sm overflow-hidden"
+          >
+            {/* Status bar */}
+            <div className={`h-1 w-full ${st.bar}`} />
+
+            <div className="p-5">
+              <div className="flex items-start justify-between gap-3 flex-wrap">
+                <div>
+                  <div className="flex items-center gap-2 flex-wrap mb-1">
+                    <span className={`text-xs font-bold px-2.5 py-1 rounded-full border inline-flex items-center ${st.badge}`}>
+                      {st.label}
+                    </span>
+                    <span className="text-xs text-gray-400 font-medium">
+                      {new Date(p.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-600">
+                    Goal: <span className="font-semibold text-[#0F172A]">{p.input?.goal || '—'}</span>
+                    {' · '}Diet: <span className="font-semibold text-[#0F172A]">{p.input?.dietType || '—'}</span>
+                    {' · '}{p.input?.weightKg}kg · {p.input?.heightCm}cm
+                  </p>
+                  {p.status === 'approved' && p.trainerComment && (
+                    <div className="mt-2 bg-emerald-50 border border-emerald-100 rounded-xl px-3 py-2 text-sm text-emerald-700">
+                      <span className="font-bold">Trainer note:</span> {p.trainerComment}
+                    </div>
+                  )}
+                  {p.status === 'rejected' && p.trainerComment && (
+                    <div className="mt-2 bg-rose-50 border border-rose-100 rounded-xl px-3 py-2 text-sm text-rose-600">
+                      <span className="font-bold">Trainer feedback:</span> {p.trainerComment}
+                    </div>
+                  )}
+                </div>
+                <motion.button
+                  whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}
+                  onClick={() => setExpanded(isOpen ? null : p._id)}
+                  className="flex-shrink-0 px-4 py-2 rounded-xl bg-[#EFF9FD] text-[#36a8cd] border border-[#36a8cd]/20 text-sm font-bold hover:bg-[#36a8cd]/15 transition-colors"
+                >
+                  {isOpen ? 'Hide Plan ▲' : 'View Plan ▼'}
+                </motion.button>
+              </div>
+
+              <AnimatePresence>
+                {isOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                    className="overflow-hidden"
+                  >
+                    <div className="mt-4 bg-[#F8FAFC] rounded-2xl border border-[#E2E8F0] p-4">
+                      <pre className="text-sm text-gray-700 whitespace-pre-wrap font-sans leading-relaxed">
+                        {p.plan}
+                      </pre>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </motion.div>
         );
@@ -870,14 +990,14 @@ const UserDashboard = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4 }}
-      className="min-h-screen bg-gray-50 w-full pb-12"
+      className="min-h-screen bg-[#F8FAFC] w-full pb-12"
     >
       {/* Header banner — dark gradient */}
       <motion.div
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className="bg-gradient-to-br from-slate-900 via-indigo-950 to-purple-900 rounded-3xl p-8 mx-4 mt-4 relative overflow-hidden"
+        className="bg-gradient-to-br from-[#0A0F1E] via-[#0F172A] to-[#0D1B26] rounded-3xl p-8 mx-4 mt-4 relative overflow-hidden"
       >
         {/* Floating particles */}
         <FloatingParticles count={12} />
@@ -886,17 +1006,17 @@ const UserDashboard = () => {
         <motion.div
           animate={{ scale: [1, 1.4, 0.9, 1.2, 1], x: [0, 25, -15, 10, 0], opacity: [0.08, 0.18, 0.06, 0.15, 0.08] }}
           transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute -top-16 -right-16 w-64 h-64 rounded-full bg-indigo-400 blur-3xl pointer-events-none"
+          className="absolute -top-16 -right-16 w-64 h-64 rounded-full bg-[#36a8cd] blur-3xl pointer-events-none"
         />
         <motion.div
           animate={{ scale: [1, 1.4, 0.9, 1.2, 1], x: [0, 25, -15, 10, 0], opacity: [0.08, 0.18, 0.06, 0.15, 0.08] }}
           transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut', delay: 1.5 }}
-          className="absolute -bottom-12 -left-12 w-48 h-48 rounded-full bg-purple-400 blur-3xl pointer-events-none"
+          className="absolute -bottom-12 -left-12 w-48 h-48 rounded-full bg-[#2089ab] blur-3xl pointer-events-none"
         />
         <motion.div
           animate={{ scale: [1, 1.4, 0.9, 1.2, 1], x: [0, 25, -15, 10, 0], opacity: [0.08, 0.18, 0.06, 0.15, 0.08] }}
           transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
-          className="absolute top-1/2 right-1/3 w-32 h-32 rounded-full bg-violet-300 blur-3xl pointer-events-none"
+          className="absolute top-1/2 right-1/3 w-32 h-32 rounded-full bg-[#66CCE0] blur-3xl pointer-events-none"
         />
 
         <motion.div
@@ -916,14 +1036,14 @@ const UserDashboard = () => {
                 Member
               </motion.span>
             </div>
-            <p className="text-indigo-200 text-sm mb-1">Welcome back 👋</p>
+            <p className="text-[#66CCE0] text-sm mb-1">Welcome back 👋</p>
             <h1 className="text-3xl font-black text-white">{userInfo.name || 'Member'}</h1>
             {myTrainer ? (
-              <p className="text-indigo-200 text-sm mt-1.5">
+              <p className="text-[#66CCE0] text-sm mt-1.5">
                 Trainer: <span className="text-white font-bold">{myTrainer.name}</span>
               </p>
             ) : (
-              <p className="text-indigo-200 text-sm mt-1.5">
+              <p className="text-[#66CCE0] text-sm mt-1.5">
                 No trainer assigned yet —{' '}
                 <button onClick={() => setActiveTab('find-trainer')} className="text-white font-bold underline underline-offset-2">
                   Find one
@@ -942,30 +1062,31 @@ const UserDashboard = () => {
           )}
         </motion.div>
 
-        {/* Tab Bar — inside dark header */}
+      </motion.div>
+
+      {/* Tab Bar — white card below header, matching trainer style */}
+      <div className="px-4 mt-4">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          className="relative z-10 bg-white/10 border border-white/20 rounded-2xl p-1.5 flex gap-1 overflow-x-auto"
+          transition={{ delay: 0.25 }}
+          className="bg-white rounded-2xl p-1.5 shadow-sm border border-[#E2E8F0] mb-6 flex overflow-x-auto"
         >
           {TABS.map(tab => (
-            <motion.button
+            <button
               key={tab.key}
               onClick={() => setActiveTab(tab.key)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className={`relative flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium whitespace-nowrap transition-all duration-200 flex-1 justify-center ${
+              className={`relative flex items-center gap-2 px-4 py-2.5 text-sm font-semibold whitespace-nowrap transition-all duration-200 flex-1 justify-center ${
                 activeTab === tab.key
-                  ? 'text-indigo-700 font-bold'
-                  : 'text-white/70 hover:text-white hover:bg-white/10'
+                  ? 'text-white'
+                  : 'text-[#475569] hover:text-[#0F172A] hover:bg-[#F8FAFC] rounded-xl'
               }`}
             >
               {activeTab === tab.key && (
                 <motion.div
                   layoutId="activeUserTab"
-                  className="absolute inset-0 bg-white rounded-xl shadow-md"
-                  transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                  className="absolute inset-0 bg-[#36a8cd] rounded-xl shadow-md"
+                  transition={{ type: 'spring', stiffness: 400, damping: 28 }}
                 />
               )}
               <span className="relative z-10">{tab.icon}</span>
@@ -973,13 +1094,11 @@ const UserDashboard = () => {
               {tab.key === 'my-trainer' && myTrainer && (
                 <span className="relative z-10 w-2 h-2 rounded-full bg-emerald-400" />
               )}
-            </motion.button>
+            </button>
           ))}
         </motion.div>
-      </motion.div>
 
       {/* Tab Content */}
-      <div className="px-4 mt-6">
         <AnimatePresence mode="wait">
           {activeTab === 'overview' && (
             <motion.div
@@ -1025,8 +1144,264 @@ const UserDashboard = () => {
               <ExercisesTab />
             </motion.div>
           )}
+          {activeTab === 'diet-plans' && (
+            <motion.div
+              key="diet-plans"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <DietPlansTab />
+            </motion.div>
+          )}
+          {activeTab === 'profile' && (
+            <motion.div
+              key="profile"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <ProfileTab />
+            </motion.div>
+          )}
         </AnimatePresence>
       </div>
+    </motion.div>
+  );
+};
+
+// ─── Profile Tab ─────────────────────────────────────────────────────────────
+const ProfileTab = () => {
+  const calcAge = (dob) => {
+    if (!dob) return null;
+    const today = new Date();
+    const birth = new Date(dob);
+    let age = today.getFullYear() - birth.getFullYear();
+    const m = today.getMonth() - birth.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--;
+    return age > 0 ? age : null;
+  };
+
+  const [form, setForm] = useState({
+    name: '', dateOfBirth: '', gender: 'male', heightCm: '', weightKg: '',
+    fitnessGoal: 'maintenance', activityLevel: 'moderate',
+    dietType: 'balanced', allergies: '', fitnessNotes: '',
+  });
+  const [dobText, setDobText] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [error, setError] = useState('');
+  const [hasPurchased, setHasPurchased] = useState(false);
+
+  useEffect(() => {
+    Promise.all([
+      axios.get(`${API}/auth/me`, getAuth()),
+      axios.get(`${API}/payments/my`, getAuth()),
+    ]).then(([profileRes, paymentsRes]) => {
+        const u = profileRes.data;
+        const dob = u.dateOfBirth ? new Date(u.dateOfBirth).toISOString().split('T')[0] : '';
+        if (dob) {
+          const [y, m, d] = dob.split('-');
+          setDobText(`${d}/${m}/${y}`);
+        }
+        setForm({
+          name: u.name || '',
+          dateOfBirth: dob,
+          gender: u.gender || 'male',
+          heightCm: u.heightCm || '',
+          weightKg: u.weightKg || '',
+          fitnessGoal: u.fitnessGoal || 'maintenance',
+          activityLevel: u.activityLevel || 'moderate',
+          dietType: u.dietType || 'balanced',
+          allergies: u.allergies || '',
+          fitnessNotes: u.fitnessNotes || '',
+        });
+        const payments = paymentsRes.data || [];
+        setHasPurchased(payments.some(p => p.status === 'succeeded'));
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  const handleSave = async (e) => {
+    e.preventDefault();
+    if (!hasPurchased) return;
+    setSaving(true); setError(''); setSaved(false);
+    try {
+      await axios.put(`${API}/auth/profile`, form, getAuth());
+      setSaved(true);
+      setTimeout(() => setSaved(false), 3000);
+    } catch (e) {
+      setError(e?.response?.data?.message || 'Failed to save profile.');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  if (loading) return <div className="flex justify-center py-16"><div className="w-8 h-8 border-4 border-[#36a8cd] border-t-transparent rounded-full animate-spin" /></div>;
+
+  return (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="max-w-2xl space-y-5">
+
+      {/* Purchase gate banner */}
+      {hasPurchased ? (
+        <div className="flex items-start gap-3 bg-[#EFF9FD] border border-[#B0E4F4] rounded-2xl px-5 py-4">
+          <span className="text-xl mt-0.5">ℹ️</span>
+          <p className="text-sm text-[#0F172A] leading-relaxed">
+            Your trainer uses this profile to generate personalised diet and exercise plans for you. Keep it up to date for the best results.
+          </p>
+        </div>
+      ) : (
+        <div className="flex items-start gap-3 bg-amber-50 border border-amber-200 rounded-2xl px-5 py-4">
+          <span className="text-xl mt-0.5">🔒</span>
+          <div>
+            <p className="text-sm font-bold text-amber-800">Purchase required</p>
+            <p className="text-sm text-amber-700 mt-0.5">
+              You need to purchase a plan or product before you can update your profile. Visit the <a href="/shop" className="underline font-semibold">Shop</a> to get started.
+            </p>
+          </div>
+        </div>
+      )}
+
+      <AnimatePresence>
+        {saved && (
+          <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+            className="p-4 bg-emerald-50 text-emerald-700 rounded-2xl text-sm font-semibold border border-emerald-100 flex items-center gap-2">
+            ✅ Profile saved successfully!
+          </motion.div>
+        )}
+        {error && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="p-4 bg-rose-50 text-rose-600 rounded-2xl text-sm border border-rose-100">
+            ⚠️ {error}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <form onSubmit={handleSave} className={`space-y-5 ${!hasPurchased ? 'opacity-50 pointer-events-none select-none' : ''}`}>
+        {/* Basic info */}
+        <div className="bg-white rounded-3xl p-6 border border-[#E2E8F0] shadow-sm space-y-4">
+          <h4 className="text-sm font-black text-[#0F172A] mb-1">Basic Information</h4>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="sm:col-span-2">
+              <label className="block text-xs font-bold text-[#475569] mb-1.5">Full Name</label>
+              <input value={form.name} onChange={e => setForm(p => ({ ...p, name: e.target.value }))}
+                placeholder="Your name" className="w-full bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#36a8cd]/20 focus:border-[#36a8cd]" />
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-[#475569] mb-1.5">
+                Date of Birth
+                {form.dateOfBirth && calcAge(form.dateOfBirth) && (
+                  <span className="ml-2 text-[#36a8cd] font-black">· Age {calcAge(form.dateOfBirth)}</span>
+                )}
+              </label>
+              <input
+                type="text"
+                placeholder="DD / MM / YYYY"
+                value={dobText}
+                maxLength={10}
+                onChange={e => {
+                  let val = e.target.value.replace(/[^\d/]/g, '');
+                  if (val.length === 2 && dobText.length === 1) val = val + '/';
+                  if (val.length === 5 && dobText.length === 4) val = val + '/';
+                  setDobText(val);
+                  const parts = val.split('/');
+                  if (parts.length === 3 && parts[0].length === 2 && parts[1].length === 2 && parts[2].length === 4) {
+                    const [d, m, y] = parts;
+                    const iso = `${y}-${m.padStart(2,'0')}-${d.padStart(2,'0')}`;
+                    const date = new Date(iso);
+                    if (!isNaN(date) && date <= new Date()) {
+                      setForm(p => ({ ...p, dateOfBirth: iso }));
+                    }
+                  } else if (val === '') {
+                    setForm(p => ({ ...p, dateOfBirth: '' }));
+                  }
+                }}
+                className="w-full bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#36a8cd]/20 focus:border-[#36a8cd]"
+              />
+              <p className="text-xs text-[#94A3B8] mt-1">Type manually as DD/MM/YYYY or use the calendar icon</p>
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-[#475569] mb-1.5">Gender</label>
+              <select value={form.gender} onChange={e => setForm(p => ({ ...p, gender: e.target.value }))}
+                className="w-full bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#36a8cd]/20 focus:border-[#36a8cd]">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-[#475569] mb-1.5">Height (cm)</label>
+              <input type="number" min="100" max="250" value={form.heightCm} onChange={e => setForm(p => ({ ...p, heightCm: e.target.value }))}
+                placeholder="e.g. 175" className="w-full bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#36a8cd]/20 focus:border-[#36a8cd]" />
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-[#475569] mb-1.5">Weight (kg)</label>
+              <input type="number" min="30" max="300" value={form.weightKg} onChange={e => setForm(p => ({ ...p, weightKg: e.target.value }))}
+                placeholder="e.g. 72" className="w-full bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#36a8cd]/20 focus:border-[#36a8cd]" />
+            </div>
+          </div>
+        </div>
+
+        {/* Fitness preferences */}
+        <div className="bg-white rounded-3xl p-6 border border-[#E2E8F0] shadow-sm space-y-4">
+          <h4 className="text-sm font-black text-[#0F172A] mb-1">Fitness Preferences</h4>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-bold text-[#475569] mb-1.5">Fitness Goal</label>
+              <select value={form.fitnessGoal} onChange={e => setForm(p => ({ ...p, fitnessGoal: e.target.value }))}
+                className="w-full bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#36a8cd]/20 focus:border-[#36a8cd]">
+                <option value="weight_loss">Weight Loss</option>
+                <option value="muscle_gain">Muscle Gain</option>
+                <option value="maintenance">Maintenance</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-[#475569] mb-1.5">Activity Level</label>
+              <select value={form.activityLevel} onChange={e => setForm(p => ({ ...p, activityLevel: e.target.value }))}
+                className="w-full bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#36a8cd]/20 focus:border-[#36a8cd]">
+                <option value="low">Low</option>
+                <option value="moderate">Moderate</option>
+                <option value="high">High</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-[#475569] mb-1.5">Diet Type</label>
+              <select value={form.dietType} onChange={e => setForm(p => ({ ...p, dietType: e.target.value }))}
+                className="w-full bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#36a8cd]/20 focus:border-[#36a8cd]">
+                <option value="balanced">Balanced</option>
+                <option value="high_protein">High Protein</option>
+                <option value="vegetarian">Vegetarian</option>
+                <option value="keto">Keto</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-[#475569] mb-1.5">Allergies / Intolerances</label>
+              <input value={form.allergies} onChange={e => setForm(p => ({ ...p, allergies: e.target.value }))}
+                placeholder="e.g. nuts, dairy, gluten" className="w-full bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#36a8cd]/20 focus:border-[#36a8cd]" />
+            </div>
+            <div className="sm:col-span-2">
+              <label className="block text-xs font-bold text-[#475569] mb-1.5">Additional Notes <span className="font-normal text-[#94A3B8]">(injuries, medical conditions, preferences…)</span></label>
+              <textarea rows={3} value={form.fitnessNotes} onChange={e => setForm(p => ({ ...p, fitnessNotes: e.target.value }))}
+                placeholder="e.g. bad lower back, diabetic, prefer no fish, post-knee surgery"
+                className="w-full bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#36a8cd]/20 focus:border-[#36a8cd] resize-none" />
+            </div>
+          </div>
+        </div>
+
+        <motion.button
+          type="submit"
+          disabled={saving}
+          whileHover={{ scale: 1.02, boxShadow: '0 8px 25px rgba(54,168,205,0.4)' }}
+          whileTap={{ scale: 0.97 }}
+          className="w-full bg-[#36a8cd] hover:bg-[#2089ab] text-white font-bold py-4 rounded-xl shadow-sm disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+        >
+          {saving ? 'Saving…' : 'Save Profile'}
+        </motion.button>
+      </form>
     </motion.div>
   );
 };

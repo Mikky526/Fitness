@@ -33,6 +33,8 @@ app.use('/api/payments', require('./routes/paymentRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));
 app.use('/api/messages', require('./routes/messageRoutes'));
 app.use('/api/trainers', require('./routes/trainerRoutes'));
+app.use('/api/ai', require('./routes/aiRoutes'));
+app.use('/api/diet-plans', require('./routes/dietPlanRoutes'));
 
 // Global JSON error handler — must be last
 app.use((err, req, res, next) => {

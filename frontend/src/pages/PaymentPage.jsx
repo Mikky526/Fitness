@@ -40,7 +40,7 @@ const PaymentPage = () => {
   if (!import.meta.env.VITE_STRIPE_PUBLIC_KEY) {
     return (
       <motion.div
-        className="p-4 bg-yellow-100 text-yellow-800 rounded max-w-md mx-auto"
+        className="p-4 bg-amber-50 text-amber-800 border border-amber-200 rounded-xl max-w-md mx-auto"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
@@ -53,7 +53,7 @@ const PaymentPage = () => {
   if (!ready) {
     return (
       <motion.div
-        className="flex justify-center items-center min-h-screen"
+        className="flex justify-center items-center min-h-screen bg-[#F8FAFC]"
         variants={containerVariants}
         initial="hidden"
         animate="visible"

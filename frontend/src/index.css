@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Kanit:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,31 +10,65 @@
   box-sizing: border-box;
 }
 
+:root {
+  --bg-page: #F8FAFC;
+  --card-surface: #FFFFFF;
+  --card-border: #E2E8F0;
+  --brand-primary: #36a8cd;
+  --brand-dark: #2089ab;
+  --brand-light-bg: #EFF9FD;
+  --accent-yellow: #FFB539;
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #94A3B8;
+  --hero-dark: #0A0F1E;
+  --error: #EF4444;
+  --success: #10B981;
+}
+
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
-  color: #111827;
+  color: #0F172A;
+  background-color: #F8FAFC;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Kanit', 'Segoe UI', sans-serif;
+  letter-spacing: -0.01em;
 }
 
 @layer utilities {
+  .app-page {
+    @apply bg-[#F8FAFC];
+  }
+
   /* ── Typography ── */
   .gradient-text {
-    @apply text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500;
+    @apply text-transparent bg-clip-text bg-gradient-to-r from-[#36a8cd] to-[#2089ab];
   }
 
   .section-title {
-    @apply font-extrabold text-2xl text-gray-900;
+    @apply font-extrabold text-2xl text-[#0F172A];
   }
 
   .stat-number {
-    @apply font-black text-3xl bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent;
+    @apply font-black text-3xl text-[#36a8cd];
   }
 
-  /* ── Glass surfaces ── */
+  /* ── Hero / dark sections ── */
+  .premium-gradient {
+    background: linear-gradient(135deg, #0A0F1E 0%, #0F172A 50%, #0D1B26 100%);
+  }
+
+  /* ── Glass surfaces (for dark hero usage) ── */
   .glass {
     @apply bg-white/10 backdrop-blur-xl border border-white/20;
   }
@@ -43,37 +79,30 @@ body {
 
   /* ── Cards ── */
   .card {
-    @apply bg-white rounded-3xl border border-gray-100 shadow-sm;
+    @apply bg-white rounded-2xl border border-[#E2E8F0] shadow-sm hover:shadow-md transition-shadow;
   }
 
   .card-hover {
-    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-indigo-100;
-  }
-
-  /* ── Backgrounds ── */
-  .premium-gradient {
-    @apply bg-gradient-to-br from-slate-900 via-indigo-950 to-purple-900;
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-md;
   }
 
   /* ── Buttons ── */
   .btn-primary {
-    @apply bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold
-           px-6 py-3 rounded-2xl shadow-lg shadow-indigo-200/50
-           hover:shadow-xl hover:shadow-indigo-300/50
-           transition-all duration-200 hover:scale-[1.02] active:scale-[0.98];
+    @apply bg-[#36a8cd] hover:bg-[#2089ab] text-white font-semibold rounded-xl px-6 py-3 transition-all shadow-sm hover:shadow-md;
   }
 
   .btn-secondary {
-    @apply bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold
-           px-6 py-3 rounded-2xl shadow-lg shadow-emerald-200/50
-           transition-all duration-200 hover:scale-[1.02] active:scale-[0.98];
+    @apply bg-white border border-[#E2E8F0] hover:border-[#36a8cd] text-[#0F172A] font-semibold rounded-xl px-6 py-3 transition-all;
+  }
+
+  .btn-ghost {
+    @apply bg-white/10 border border-white/20 text-white font-semibold px-6 py-3 rounded-xl hover:bg-white/20 transition-all;
   }
 
   /* ── Inputs ── */
   .input-field {
-    @apply w-full px-4 py-3 bg-white border border-gray-200 rounded-xl
-           focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400
-           transition-all duration-200 placeholder-gray-400 text-gray-900 text-sm;
+    @apply w-full bg-white border border-[#E2E8F0] rounded-xl px-4 py-3 text-[#0F172A] placeholder-[#94A3B8]
+           focus:outline-none focus:ring-2 focus:ring-[#36a8cd]/20 focus:border-[#36a8cd] transition-all;
   }
 
   /* ── Badges ── */
@@ -81,11 +110,26 @@ body {
     @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-bold border;
   }
 
+  .section-badge {
+    @apply inline-flex items-center gap-2 bg-[#EFF9FD] text-[#36a8cd] text-xs font-bold px-3 py-1.5 rounded-full border border-[#36a8cd]/20;
+  }
+
   /* ── Shimmer skeleton ── */
   .shimmer-bg {
-    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background: linear-gradient(90deg, #F1F5F9 25%, #E2E8F0 50%, #F1F5F9 75%);
     background-size: 200% 100%;
     animation: shimmer 1.5s infinite;
+  }
+
+  /* ── Hero dot grid overlay ── */
+  .hero-grid {
+    background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0);
+    background-size: 32px 32px;
+  }
+
+  /* ── Noise texture overlay ── */
+  .hero-noise {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");
   }
 }
 
@@ -101,15 +145,21 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: #E2E8F0;
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #a5b4fc;
+  background: #36a8cd;
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #818cf8;
+  background: #2089ab;
+}
+
+/* ── Selection color ── */
+::selection {
+  background: rgba(54, 168, 205, 0.25);
+  color: #0F172A;
 }

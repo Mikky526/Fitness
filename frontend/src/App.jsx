@@ -11,17 +11,19 @@ import AdminDashboard from './pages/AdminDashboard';
 import TrainerDashboard from './pages/TrainerDashboard';
 import ShopPage from './pages/ShopPage';
 import CartPage from './pages/CartPage';
+import AIDietPlanner from './pages/AIDietPlanner';
 
 const Wrap = ({ children }) => (
-  <div className="container mx-auto px-4 py-6">{children}</div>
+  <div className="max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-8">{children}</div>
 );
+
 
 function App() {
   return (
     <Router>
       <AuthProvider>
         <CartProvider>
-          <div className="min-h-screen bg-gray-50 text-gray-900">
+          <div className="min-h-screen text-slate-900 app-page">
             <Navbar />
             <Routes>
               {/* Full-width pages */}
@@ -45,6 +47,12 @@ function App() {
               <Route path="/cart" element={
                 <ProtectedRoute allowedRoles={['user']}>
                   <Wrap><CartPage /></Wrap>
+                </ProtectedRoute>
+              } />
+
+              <Route path="/diet-plan" element={
+                <ProtectedRoute allowedRoles={['trainer', 'admin']}>
+                  <Wrap><AIDietPlanner /></Wrap>
                 </ProtectedRoute>
               } />
 

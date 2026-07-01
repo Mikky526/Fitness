@@ -15,7 +15,7 @@ const getAuthHeader = () => {
 const FloatingParticles = ({ count = 12 }) => (
   <div className="absolute inset-0 overflow-hidden pointer-events-none">
     {Array.from({ length: count }).map((_, i) => {
-      const colors = ['bg-purple-300', 'bg-indigo-300', 'bg-pink-300', 'bg-violet-300'];
+      const colors = ['bg-[#33B8D4]', 'bg-[#66CCE0]', 'bg-cyan-300', 'bg-blue-300'];
       const size = 2 + (i % 4);
       return (
         <motion.div
@@ -84,14 +84,14 @@ const MembersDetail = ({ items, loading, onToggleBlock }) => (
       <p className="text-center text-gray-400 py-8 text-sm">No members found.</p>
     ) : items.map((m, i) => (
       <motion.div key={m._id} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0, transition: { delay: i * 0.04 } }}
-        className={`flex items-center gap-3 p-3 rounded-xl border transition-all ${m.isBlocked ? 'bg-red-50 border-red-100' : 'bg-gray-50 border-gray-100 hover:bg-white hover:border-indigo-100'}`}>
-        <div className={`w-9 h-9 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0 bg-gradient-to-br ${m.isBlocked ? 'from-red-400 to-rose-500' : 'from-indigo-400 to-purple-500'}`}>
+        className={`flex items-center gap-3 p-3 rounded-xl border transition-all ${m.isBlocked ? 'bg-red-50 border-red-100' : 'bg-[#F8FAFC] border-[#E2E8F0] hover:bg-white hover:border-[#36a8cd]/20'}`}>
+        <div className={`w-9 h-9 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0 bg-gradient-to-br ${m.isBlocked ? 'from-red-400 to-rose-500' : 'from-[#36a8cd] to-[#2089ab]'}`}>
           {m.name?.charAt(0).toUpperCase()}
         </div>
         <div className="flex-1 min-w-0">
           <p className="font-semibold text-gray-800 text-sm truncate">{m.name}</p>
           <p className="text-xs text-gray-500 truncate">{m.email}</p>
-          {m.fitnessGoals && <p className="text-xs text-indigo-500 truncate">{m.fitnessGoals}</p>}
+          {m.fitnessGoals && <p className="text-xs text-[#36a8cd] truncate">{m.fitnessGoals}</p>}
         </div>
         <div className="flex items-center gap-2 flex-shrink-0">
           {m.isBlocked && <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-red-100 text-red-600 border border-red-200">Blocked</span>}
@@ -115,14 +115,14 @@ const TrainersDetail = ({ items, loading, onVerify, onToggleBlock }) => (
       <p className="text-center text-gray-400 py-8 text-sm">No trainers found.</p>
     ) : items.map((t, i) => (
       <motion.div key={t._id} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0, transition: { delay: i * 0.04 } }}
-        className={`flex items-center gap-3 p-3 rounded-xl border transition-all ${t.isBlocked ? 'bg-red-50 border-red-100' : 'bg-gray-50 border-gray-100 hover:bg-white hover:border-blue-100'}`}>
-        <div className={`w-9 h-9 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0 bg-gradient-to-br ${t.isBlocked ? 'from-red-400 to-rose-500' : 'from-blue-400 to-cyan-500'}`}>
+        className={`flex items-center gap-3 p-3 rounded-xl border transition-all ${t.isBlocked ? 'bg-red-50 border-red-100' : 'bg-[#F8FAFC] border-[#E2E8F0] hover:bg-white hover:border-[#36a8cd]/20'}`}>
+        <div className={`w-9 h-9 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0 bg-gradient-to-br ${t.isBlocked ? 'from-red-400 to-rose-500' : 'from-[#36a8cd] to-[#2089ab]'}`}>
           {t.name?.charAt(0).toUpperCase()}
         </div>
         <div className="flex-1 min-w-0">
           <p className="font-semibold text-gray-800 text-sm truncate">{t.name}</p>
           <p className="text-xs text-gray-500 truncate">{t.email}</p>
-          {t.specialization && <p className="text-xs text-blue-500 truncate">{t.specialization}</p>}
+          {t.specialization && <p className="text-xs text-[#36a8cd] truncate">{t.specialization}</p>}
         </div>
         <div className="flex items-center gap-2 flex-shrink-0 flex-wrap justify-end">
           <Badge label={t.isVerified ? 'verified' : 'pending'} />
@@ -154,7 +154,7 @@ const AppointmentsDetail = ({ items, loading }) => (
       <p className="text-center text-gray-400 py-8 text-sm">No appointments found.</p>
     ) : items.map((a, i) => (
       <motion.div key={a._id} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0, transition: { delay: i * 0.04 } }}
-        className="flex items-center gap-3 p-3 rounded-xl bg-gray-50 border border-gray-100 hover:bg-white hover:border-emerald-100 transition-all">
+        className="flex items-center gap-3 p-3 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] hover:bg-white hover:border-emerald-100 transition-all">
         <div className="w-9 h-9 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center text-white text-lg flex-shrink-0">
           📅
         </div>
@@ -192,7 +192,7 @@ const RevenueDetail = ({ items, loading }) => {
           <p className="text-center text-gray-400 py-8 text-sm">No transactions found.</p>
         ) : items.map((p, i) => (
           <motion.div key={p._id} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0, transition: { delay: i * 0.04 } }}
-            className="flex items-center gap-3 p-3 rounded-xl bg-gray-50 border border-gray-100 hover:bg-white hover:border-orange-100 transition-all">
+            className="flex items-center gap-3 p-3 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] hover:bg-white hover:border-orange-100 transition-all">
             <div className="w-9 h-9 rounded-full bg-gradient-to-br from-orange-400 to-rose-500 flex items-center justify-center text-white text-lg flex-shrink-0">
               💳
             </div>
@@ -212,6 +212,173 @@ const RevenueDetail = ({ items, loading }) => {
           </motion.div>
         ))}
       </div>
+    </div>
+  );
+};
+
+// ─── Admin Diet Plans Section ─────────────────────────────────────────────────
+const AdminDietPlansSection = () => {
+  const [plans, setPlans] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [expanded, setExpanded] = useState(null);
+  const [editing, setEditing] = useState(null);    // plan._id being edited
+  const [editText, setEditText] = useState('');
+  const [saving, setSaving] = useState(false);
+  const [toast, setToast] = useState('');
+
+  useEffect(() => {
+    fetch(`${API}/diet-plans`, { headers: getAuthHeader() })
+      .then(r => r.json())
+      .then(d => setPlans(Array.isArray(d) ? d : []))
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(''), 3000); };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm('Delete this diet plan?')) return;
+    try {
+      await fetch(`${API}/diet-plans/${id}`, { method: 'DELETE', headers: getAuthHeader() });
+      setPlans(prev => prev.filter(p => p._id !== id));
+      showToast('🗑️ Plan deleted.');
+    } catch { showToast('⚠️ Delete failed.'); }
+  };
+
+  const handleSaveEdit = async (id) => {
+    if (!editText.trim()) return;
+    setSaving(true);
+    try {
+      const res = await fetch(`${API}/diet-plans/${id}`, {
+        method: 'PUT',
+        headers: { ...getAuthHeader(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plan: editText }),
+      });
+      const updated = await res.json();
+      setPlans(prev => prev.map(p => p._id === id ? updated : p));
+      setEditing(null);
+      showToast('✅ Plan updated.');
+    } catch { showToast('⚠️ Save failed.'); }
+    finally { setSaving(false); }
+  };
+
+  const STATUS_STYLE = {
+    pending:  { bar: 'bg-amber-400',   badge: 'bg-amber-50 text-amber-700 border-amber-200',        dot: 'bg-amber-400' },
+    approved: { bar: 'bg-emerald-500', badge: 'bg-emerald-50 text-emerald-700 border-emerald-200',  dot: 'bg-emerald-500' },
+    rejected: { bar: 'bg-rose-500',    badge: 'bg-rose-50 text-rose-600 border-rose-200',           dot: 'bg-rose-500' },
+  };
+
+  const visible = plans;
+
+  if (loading) return (
+    <div className="space-y-2">
+      {[1,2,3].map(i => <SkeletonRow key={i} />)}
+    </div>
+  );
+
+  return (
+    <div className="space-y-4">
+      {/* Toast */}
+      <AnimatePresence>
+        {toast && (
+          <motion.div key="toast" initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+            className="fixed top-4 right-4 bg-[#0F172A] text-white rounded-2xl px-5 py-3 shadow-xl z-50 font-semibold">
+            {toast}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {visible.length === 0 ? (
+        <p className="text-center text-gray-400 py-8 text-sm">No diet plans found.</p>
+      ) : (
+        <div className="space-y-3">
+          {visible.map((p, i) => {
+            const st = STATUS_STYLE[p.status] || STATUS_STYLE.pending;
+            const isOpen = expanded === p._id;
+            const isEditing = editing === p._id;
+            return (
+              <motion.div key={p._id} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.04 }}
+                className="bg-white rounded-2xl border border-[#E2E8F0] shadow-sm overflow-hidden"
+              >
+                <div className={`h-1 w-full ${st.bar}`} />
+                <div className="p-4">
+                  <div className="flex items-center gap-3 flex-wrap">
+                    <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#36a8cd] to-[#2089ab] flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+                      {p.userName?.charAt(0).toUpperCase()}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-gray-800 text-sm">{p.userName}</p>
+                      <p className="text-xs text-gray-500">
+                        {p.input?.goal} · {p.input?.dietType} · {new Date(p.createdAt).toLocaleDateString()}
+                      </p>
+                      {p.reviewedByName && (
+                        <p className="text-xs text-[#36a8cd]">Reviewed by {p.reviewedByName}</p>
+                      )}
+                    </div>
+                    <span className={`text-xs font-bold px-2.5 py-1 rounded-full border inline-flex items-center capitalize ${st.badge}`}>
+                      {p.status}
+                    </span>
+                    <div className="flex gap-1.5 flex-shrink-0">
+                      <button onClick={() => setExpanded(isOpen ? null : p._id)}
+                        className="px-2.5 py-1 rounded-lg bg-[#EFF9FD] text-[#36a8cd] border border-[#36a8cd]/20 text-xs font-bold hover:bg-[#36a8cd]/15 transition-colors">
+                        {isOpen ? 'Hide' : 'View'}
+                      </button>
+                      <button onClick={() => { setEditing(isEditing ? null : p._id); setEditText(p.plan); setExpanded(null); }}
+                        className="px-2.5 py-1 rounded-lg bg-orange-50 text-orange-600 border border-orange-200 text-xs font-bold hover:bg-orange-100 transition-colors">
+                        Edit
+                      </button>
+                      <button onClick={() => handleDelete(p._id)}
+                        className="px-2.5 py-1 rounded-lg bg-rose-50 text-rose-600 border border-rose-200 text-xs font-bold hover:bg-rose-100 transition-colors">
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* View plan */}
+                  <AnimatePresence>
+                    {isOpen && (
+                      <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.3 }} className="overflow-hidden">
+                        <div className="mt-3 bg-[#F8FAFC] rounded-xl border border-[#E2E8F0] p-4 max-h-64 overflow-y-auto">
+                          <pre className="text-xs text-gray-700 whitespace-pre-wrap font-sans leading-relaxed">{p.plan}</pre>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
+                  {/* Edit plan */}
+                  <AnimatePresence>
+                    {isEditing && (
+                      <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.3 }} className="overflow-hidden">
+                        <div className="mt-3 space-y-2">
+                          <textarea
+                            value={editText}
+                            onChange={e => setEditText(e.target.value)}
+                            rows={8}
+                            className="w-full bg-white border border-[#E2E8F0] rounded-xl px-3 py-2 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-[#36a8cd]/20 focus:border-[#36a8cd] resize-y transition-all"
+                          />
+                          <div className="flex gap-2">
+                            <button onClick={() => handleSaveEdit(p._id)} disabled={saving}
+                              className="px-4 py-2 rounded-xl bg-[#36a8cd] text-white text-xs font-bold hover:bg-[#2089ab] disabled:opacity-60 transition-colors">
+                              {saving ? 'Saving…' : 'Save Changes'}
+                            </button>
+                            <button onClick={() => setEditing(null)}
+                              className="px-4 py-2 rounded-xl bg-gray-100 text-gray-600 text-xs font-bold hover:bg-gray-200 transition-colors">
+                              Cancel
+                            </button>
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };
@@ -307,7 +474,7 @@ const AdminDashboard = () => {
   }, [activeCard]);
 
   const statCards = platformStats ? [
-    { key: 'members',      label: 'Total Members',  value: platformStats.users ?? 0,         icon: '🏃', gradient: 'from-indigo-500 to-purple-600', ring: 'ring-indigo-400' },
+    { key: 'members',      label: 'Total Members',  value: platformStats.users ?? 0,         icon: '🏃', gradient: 'from-[#36a8cd] to-[#2089ab]', ring: 'ring-[#36a8cd]' },
     { key: 'trainers',     label: 'Total Trainers', value: platformStats.trainers ?? 0,      icon: '🏋️', gradient: 'from-blue-500 to-cyan-500',    ring: 'ring-blue-400' },
     { key: 'appointments', label: 'Appointments',   value: platformStats.appointments ?? 0,  icon: '📅', gradient: 'from-emerald-500 to-teal-500', ring: 'ring-emerald-400' },
     { key: 'revenue',      label: 'Revenue (₹)',    value: `₹${platformStats.revenue ?? 0}`, icon: '💰', gradient: 'from-orange-400 to-rose-500',  ring: 'ring-orange-400' },
@@ -321,18 +488,18 @@ const AdminDashboard = () => {
   };
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4 }} className="min-h-screen bg-gray-50 pb-8">
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4 }} className="min-h-screen bg-[#F8FAFC] pb-8">
 
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 rounded-3xl p-8 mx-4 mt-4 relative overflow-hidden"
+        className="bg-gradient-to-br from-[#0A0F1E] via-[#0F172A] to-[#0D1B26] rounded-3xl p-8 mx-4 mt-4 relative overflow-hidden"
       >
         <FloatingParticles count={12} />
         <motion.div animate={{ scale: [1, 1.4, 0.8, 1.2, 1], x: [0, 30, -20, 10, 0], opacity: [0.08, 0.2, 0.06, 0.15, 0.08] }} transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute -top-16 -right-16 w-64 h-64 bg-indigo-500 rounded-full blur-3xl pointer-events-none" />
+          className="absolute -top-16 -right-16 w-64 h-64 bg-[#36a8cd] rounded-full blur-3xl pointer-events-none" />
         <motion.div animate={{ scale: [1, 1.4, 0.8, 1.2, 1], x: [0, -30, 20, -10, 0], opacity: [0.08, 0.2, 0.06, 0.15, 0.08] }} transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 1.5 }}
-          className="absolute -bottom-12 left-12 w-48 h-48 bg-purple-500 rounded-full blur-3xl pointer-events-none" />
+          className="absolute -bottom-12 left-12 w-48 h-48 bg-[#2089ab] rounded-full blur-3xl pointer-events-none" />
         <motion.div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent rounded-3xl pointer-events-none"
           animate={{ x: ['-100%', '200%'] }} transition={{ duration: 4, repeat: Infinity, repeatDelay: 6, ease: 'easeInOut' }} />
         <div className="absolute top-6 right-6">
@@ -345,7 +512,7 @@ const AdminDashboard = () => {
             <span className="text-emerald-300 text-sm font-medium">System Online</span>
           </div>
           <h1 className="text-3xl font-black text-white mb-1">Admin Dashboard</h1>
-          <p className="text-indigo-200/70 text-sm">Click a stat card to view its details.</p>
+          <p className="text-[#66CCE0]/70 text-sm">Click a stat card to view its details.</p>
         </div>
       </motion.div>
 
@@ -354,7 +521,7 @@ const AdminDashboard = () => {
         {/* Stat cards */}
         <div>
           <div className="flex items-center justify-between mb-5">
-            <h2 className="text-xl font-bold text-gray-900">Platform Overview</h2>
+            <h2 className="text-xl font-bold text-[#0F172A]">Platform Overview</h2>
             <span className="text-xs text-gray-400 flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" /> Live from database
             </span>
@@ -379,12 +546,12 @@ const AdminDashboard = () => {
                 return (
                   <motion.div key={s.key}
                     variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5 } } }}
-                    whileHover={{ y: -6, boxShadow: '0 20px 50px rgba(99,102,241,0.2)' }}
+                    whileHover={{ y: -6, boxShadow: '0 20px 50px rgba(54,168,205,0.2)' }}
                   >
                     <TiltCard
                       onClick={() => fetchDetail(s.key)}
                       className={`bg-white rounded-3xl p-6 border shadow-sm cursor-pointer h-full transition-all duration-200 ${
-                        isActive ? `border-2 ${s.ring} ring-2 ring-offset-1 ${s.ring}` : 'border-gray-100'
+                        isActive ? `border-2 ${s.ring} ring-2 ring-offset-1 ${s.ring}` : 'border-[#E2E8F0]'
                       }`}
                     >
                       <motion.div animate={{ rotate: [0, -5, 5, 0], scale: [1, 1.05, 1] }} transition={{ duration: 3, repeat: Infinity, delay: i * 0.5 }}
@@ -398,12 +565,12 @@ const AdminDashboard = () => {
                       >
                         {s.value}
                       </motion.div>
-                      <div className="text-sm font-medium text-gray-500 mt-1">{s.label}</div>
+                      <div className="text-sm font-medium text-[#475569] mt-1">{s.label}</div>
                       <div className="flex items-center justify-between mt-4">
                         <motion.div initial={{ scaleX: 0 }} animate={{ scaleX: 1 }}
                           transition={{ duration: 0.8, delay: 0.5 + i * 0.1 }} style={{ transformOrigin: 'left' }}
                           className={`flex-1 h-1 bg-gradient-to-r ${s.gradient} rounded-full`} />
-                        <span className={`ml-3 text-xs font-semibold transition-colors ${isActive ? 'text-indigo-600' : 'text-gray-400'}`}>
+                        <span className={`ml-3 text-xs font-semibold transition-colors ${isActive ? 'text-[#36a8cd]' : 'text-[#94A3B8]'}`}>
                           {isActive ? 'Hide ▲' : 'View ▼'}
                         </span>
                       </div>
@@ -425,9 +592,9 @@ const AdminDashboard = () => {
                 transition={{ duration: 0.25, ease: 'easeOut' }}
                 style={{ marginTop: 20 }}
               >
-                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm">
-                  <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-                    <h3 className="font-bold text-gray-900">{detailTitles[activeCard]}</h3>
+                <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-sm">
+                  <div className="flex items-center justify-between px-5 py-4 border-b border-[#E2E8F0]">
+                    <h3 className="font-bold text-[#0F172A]">{detailTitles[activeCard]}</h3>
                     <button onClick={() => { setActiveCard(null); setDetailError(''); }}
                       className="w-7 h-7 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors text-lg">
                       ×
@@ -450,10 +617,19 @@ const AdminDashboard = () => {
           </AnimatePresence>
         </div>
 
+        {/* Diet Plans Management */}
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
+          <h2 className="text-xl font-bold text-gray-900 mb-5 flex items-center gap-2">
+            <span className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-base shadow-md shadow-emerald-200/50">🥗</span>
+            AI Diet Plans
+          </h2>
+          <AdminDietPlansSection />
+        </motion.div>
+
         {/* User Management */}
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
           <h2 className="text-xl font-bold text-gray-900 mb-5 flex items-center gap-2">
-            <span className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-base shadow-md shadow-indigo-200/50">🛡️</span>
+            <span className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#36a8cd] to-[#2089ab] flex items-center justify-center text-base shadow-md shadow-[#36a8cd]/30">🛡️</span>
             User Management
           </h2>
           <UserManagement />
@@ -638,7 +814,7 @@ const ProductManagement = () => {
   };
 
   const TYPE_COLORS = {
-    membership: 'bg-indigo-100 text-indigo-700',
+    membership: 'bg-[#EFF9FD] text-[#36a8cd]',
     session: 'bg-orange-100 text-orange-700',
     package: 'bg-emerald-100 text-emerald-700',
     consultation: 'bg-green-100 text-green-700',
@@ -646,11 +822,11 @@ const ProductManagement = () => {
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-      <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+    <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-sm overflow-hidden">
+      <div className="flex items-center justify-between px-5 py-4 border-b border-[#E2E8F0]">
         <div className="flex items-center gap-2">
-          <span className="font-bold text-gray-900">All Plans &amp; Sessions</span>
-          <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-gray-100 text-gray-500">{products.length}</span>
+          <span className="font-bold text-[#0F172A]">All Plans &amp; Sessions</span>
+          <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-[#EFF9FD] text-[#36a8cd] border border-[#36a8cd]/20">{products.length}</span>
         </div>
         <button onClick={() => setModal('create')}
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-white bg-gradient-to-r from-orange-500 to-rose-500 hover:opacity-90 transition-opacity">
@@ -682,7 +858,7 @@ const ProductManagement = () => {
           <div className="space-y-2">
             {products.map((p, i) => (
               <motion.div key={p._id} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0, transition: { delay: i * 0.04 } }}
-                className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl border border-gray-100 hover:bg-white hover:border-orange-100 hover:shadow-sm transition-all group">
+                className="flex items-center gap-3 p-4 bg-[#F8FAFC] rounded-xl border border-[#E2E8F0] hover:bg-white hover:border-[#36a8cd]/20 hover:shadow-sm transition-all group">
                 <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${p.color} flex items-center justify-center text-xl flex-shrink-0 shadow-sm`}>
                   {p.icon}
                 </div>

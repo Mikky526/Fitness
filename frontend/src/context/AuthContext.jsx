@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }) => {
       const { data } = await axios.post(`${baseUrl}/auth/login`, { email, password });
       setUser(data);
       Cookies.set(COOKIE_NAME, JSON.stringify(data), { expires: COOKIE_EXPIRES });
-      return { success: true, role: data.role };
+      return { success: true, role: data.role, firstLogin: data.firstLogin || false };
     } catch (error) {
       return { success: false, message: error.response?.data?.message || 'Login failed' };
     }

@@ -6,6 +6,24 @@ export default {
   ],
   theme: {
     extend: {
+      colors: {
+        brand: {
+          50:  '#EFF9FD',
+          100: '#CCEEf9',
+          200: '#99DDEC',
+          300: '#66CCE0',
+          400: '#33B8D4',
+          500: '#36a8cd',
+          600: '#2089ab',
+          700: '#196B88',
+          800: '#124D63',
+          900: '#0B2E3D',
+        },
+        accent: {
+          yellow: '#FFB539',
+          dark:   '#131B23',
+        },
+      },
       keyframes: {
         shimmer: {
           '0%': { backgroundPosition: '-200% 0' },

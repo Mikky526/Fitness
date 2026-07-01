@@ -37,10 +37,10 @@ const Modal = ({ title, onClose, children }) => (
         transition={{ type: 'spring', stiffness: 300, damping: 25 }}
       >
         <div className="flex items-center justify-between mb-5">
-          <h3 className="text-lg font-bold text-gray-900">{title}</h3>
+          <h3 className="text-lg font-bold text-white">{title}</h3>
           <button
             onClick={onClose}
-            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors text-xl"
+            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-400 hover:text-gray-300 transition-colors text-xl"
           >
             ×
           </button>
@@ -54,7 +54,7 @@ const Modal = ({ title, onClose, children }) => (
 // ── Input field ────────────────────────────────────────────────────────────────
 const Field = ({ label, type = 'text', value, onChange, placeholder, required }) => (
   <div>
-    <label className="block text-sm font-medium text-gray-700 mb-1">
+    <label className="block text-sm font-medium text-gray-200 mb-1">
       {label} {required && <span className="text-red-500">*</span>}
     </label>
     <input
@@ -62,7 +62,7 @@ const Field = ({ label, type = 'text', value, onChange, placeholder, required })
       value={value}
       onChange={e => onChange(e.target.value)}
       placeholder={placeholder}
-      className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition-all"
+      className="w-full px-3 py-2 border border-white/[0.12] rounded-xl text-sm bg-[#1C1C1C] text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#36a8cd]/30 focus:border-[#36a8cd] transition-all"
     />
   </div>
 );
@@ -70,14 +70,14 @@ const Field = ({ label, type = 'text', value, onChange, placeholder, required })
 // ── Confirm Delete Dialog ──────────────────────────────────────────────────────
 const ConfirmDelete = ({ name, onConfirm, onCancel, loading }) => (
   <Modal title="Confirm Delete" onClose={onCancel}>
-    <p className="text-gray-600 text-sm mb-6">
-      Are you sure you want to delete <span className="font-semibold text-gray-900">{name}</span>? This action cannot be undone.
+    <p className="text-gray-300 text-sm mb-6">
+      Are you sure you want to delete <span className="font-semibold text-white">{name}</span>? This action cannot be undone.
     </p>
     <div className="flex gap-3 justify-end">
-      <button onClick={onCancel} className="px-4 py-2 text-sm rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors">
+      <button onClick={onCancel} className="px-4 py-2 text-sm rounded-xl border border-gray-200 text-gray-300 hover:bg-gray-50 transition-colors">
         Cancel
       </button>
-      <button onClick={onConfirm} disabled={loading} className="px-4 py-2 text-sm rounded-xl bg-red-500 text-white font-semibold hover:bg-red-600 disabled:opacity-50 transition-colors">
+      <button onClick={onConfirm} disabled={loading} className="px-4 py-2 text-sm rounded-xl bg-red-500/100 text-white font-semibold hover:bg-red-600 disabled:opacity-50 transition-colors">
         {loading ? 'Deleting…' : 'Delete'}
       </button>
     </div>
@@ -99,10 +99,10 @@ const MemberForm = ({ initial, onSave, onClose, saving }) => {
       <Field label="Password" type="password" value={form.password} onChange={set('password')} placeholder={initial ? 'Leave blank to keep current' : 'Password'} required={!initial} />
       <Field label="Fitness Goals" value={form.fitnessGoals} onChange={set('fitnessGoals')} placeholder="e.g. Weight loss, muscle gain…" />
       <div className="flex gap-3 justify-end pt-2">
-        <button type="button" onClick={onClose} className="px-4 py-2 text-sm rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors">
+        <button type="button" onClick={onClose} className="px-4 py-2 text-sm rounded-xl border border-gray-200 text-gray-300 hover:bg-gray-50 transition-colors">
           Cancel
         </button>
-        <button type="submit" disabled={saving} className="px-5 py-2 text-sm rounded-xl bg-indigo-600 text-white font-semibold hover:bg-indigo-700 disabled:opacity-50 transition-colors">
+        <button type="submit" disabled={saving} className="px-5 py-2 text-sm rounded-xl bg-black text-white font-semibold hover:bg-[#1C1C1C] disabled:opacity-50 transition-colors">
           {saving ? 'Saving…' : initial ? 'Save Changes' : 'Create Member'}
         </button>
       </div>
@@ -130,12 +130,12 @@ const TrainerForm = ({ initial, onSave, onClose, saving }) => {
           type="checkbox"
           checked={form.isVerified}
           onChange={e => setForm(f => ({ ...f, isVerified: e.target.checked }))}
-          className="w-4 h-4 rounded accent-indigo-600"
+          className="w-4 h-4 rounded accent-[#36a8cd]"
         />
-        <label htmlFor="verified" className="text-sm font-medium text-gray-700">Verified Trainer</label>
+        <label htmlFor="verified" className="text-sm font-medium text-gray-200">Verified Trainer</label>
       </div>
       <div className="flex gap-3 justify-end pt-2">
-        <button type="button" onClick={onClose} className="px-4 py-2 text-sm rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors">
+        <button type="button" onClick={onClose} className="px-4 py-2 text-sm rounded-xl border border-gray-200 text-gray-300 hover:bg-gray-50 transition-colors">
           Cancel
         </button>
         <button type="submit" disabled={saving} className="px-5 py-2 text-sm rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 disabled:opacity-50 transition-colors">
@@ -152,15 +152,15 @@ const Row = ({ item, type, onEdit, onDelete, onApprove, onToggleBlock, index }) 
     custom={index}
     initial={{ opacity: 0, y: 10 }}
     animate={{ opacity: 1, y: 0, transition: { delay: index * 0.04 } }}
-    className={`flex items-center justify-between p-4 rounded-xl border transition-all group ${item.isBlocked ? 'bg-red-50 border-red-100' : 'bg-gray-50 border-gray-100 hover:bg-white hover:shadow-sm hover:border-indigo-100'}`}
+    className={`flex items-center justify-between p-4 rounded-xl border transition-all group ${item.isBlocked ? 'bg-red-500/10 border-red-100' : 'bg-gray-50 border-white/[0.08] hover:bg-white hover:shadow-sm hover:border-[#E0F4FA]'}`}
   >
     <div className="flex items-center gap-3 min-w-0">
-      <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0 bg-gradient-to-br ${item.isBlocked ? 'from-red-400 to-rose-500' : 'from-indigo-400 to-purple-500'}`}>
+      <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0 bg-gradient-to-br ${item.isBlocked ? 'from-red-400 to-rose-500' : 'from-[#36a8cd] to-[#2089ab]'}`}>
         {item.name?.charAt(0).toUpperCase() || '?'}
       </div>
       <div className="min-w-0">
-        <p className="font-semibold text-gray-800 text-sm group-hover:text-indigo-700 transition-colors truncate">{item.name}</p>
-        <p className="text-xs text-gray-500 truncate">{item.email}</p>
+        <p className="font-semibold text-gray-100 text-sm group-hover:text-[#2089ab] transition-colors truncate">{item.name}</p>
+        <p className="text-xs text-gray-400 truncate">{item.email}</p>
         {type === 'trainer' && item.specialization && (
           <p className="text-xs text-blue-500 truncate">{item.specialization}</p>
         )}
@@ -173,7 +173,7 @@ const Row = ({ item, type, onEdit, onDelete, onApprove, onToggleBlock, index }) 
       {/* Trainer approval badge + button */}
       {type === 'trainer' && (
         <>
-          <span className={`px-2 py-0.5 rounded-full text-xs font-semibold border ${item.isVerified ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-amber-50 text-amber-700 border-amber-200'}`}>
+          <span className={`px-2 py-0.5 rounded-full text-xs font-semibold border ${item.isVerified ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20' : 'bg-amber-500/100/15 text-amber-400 border-amber-200'}`}>
             {item.isVerified ? 'Approved' : 'Pending'}
           </span>
           {!item.isVerified && (
@@ -189,7 +189,7 @@ const Row = ({ item, type, onEdit, onDelete, onApprove, onToggleBlock, index }) 
       {/* Block / Unblock */}
       <button
         onClick={() => onToggleBlock(item._id)}
-        className={`px-2.5 py-1 rounded-lg text-white text-xs font-semibold transition-colors ${item.isBlocked ? 'bg-emerald-500 hover:bg-emerald-600' : 'bg-red-500 hover:bg-red-600'}`}
+        className={`px-2.5 py-1 rounded-lg text-white text-xs font-semibold transition-colors ${item.isBlocked ? 'bg-emerald-500 hover:bg-emerald-600' : 'bg-red-500/100 hover:bg-red-600'}`}
       >
         {item.isBlocked ? 'Unblock' : 'Block'}
       </button>
@@ -198,14 +198,14 @@ const Row = ({ item, type, onEdit, onDelete, onApprove, onToggleBlock, index }) 
       </span>
       <button
         onClick={() => onEdit(item)}
-        className="p-2 rounded-lg hover:bg-indigo-50 text-gray-400 hover:text-indigo-600 transition-colors text-sm"
+        className="p-2 rounded-lg hover:bg-black/10 text-gray-400 hover:text-[#36a8cd] transition-colors text-sm"
         title="Edit"
       >
         ✏️
       </button>
       <button
         onClick={() => onDelete(item)}
-        className="p-2 rounded-lg hover:bg-red-50 text-gray-400 hover:text-red-500 transition-colors text-sm"
+        className="p-2 rounded-lg hover:bg-red-500/10 text-gray-400 hover:text-red-500 transition-colors text-sm"
         title="Delete"
       >
         🗑️
@@ -216,13 +216,13 @@ const Row = ({ item, type, onEdit, onDelete, onApprove, onToggleBlock, index }) 
 
 // ── Section (reusable Members / Trainers panel) ───────────────────────────────
 const Section = ({ title, icon, accentClass, addLabel, items, type, loading, onAdd, onEdit, onDelete, onApprove, onToggleBlock }) => (
-  <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+  <div className="bg-[#1C1C1C] rounded-2xl border border-white/[0.08] shadow-[0px_8px_25px_rgba(0,0,0,0.4)] overflow-hidden">
     {/* Section header */}
-    <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+    <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.08]">
       <div className="flex items-center gap-2">
         <span className="text-xl">{icon}</span>
-        <h3 className="font-bold text-gray-900">{title}</h3>
-        <span className="ml-1 px-2 py-0.5 rounded-full text-xs font-bold bg-gray-100 text-gray-500">
+        <h3 className="font-bold text-white">{title}</h3>
+        <span className="ml-1 px-2 py-0.5 rounded-full text-xs font-bold bg-gray-100 text-gray-400">
           {items.length}
         </span>
       </div>
@@ -251,7 +251,7 @@ const Section = ({ title, icon, accentClass, addLabel, items, type, loading, onA
         <div className="text-center py-10">
           <div className="text-4xl mb-2">{icon}</div>
           <p className="text-gray-400 text-sm">No {addLabel.toLowerCase()}s yet.</p>
-          <button onClick={onAdd} className="mt-3 text-sm text-indigo-600 underline">
+          <button onClick={onAdd} className="mt-3 text-sm text-[#36a8cd] underline">
             Add the first {addLabel.toLowerCase()}
           </button>
         </div>
@@ -397,7 +397,7 @@ const UserManagement = () => {
     <div className="space-y-6">
       {error && (
         <motion.div
-          className="p-3 bg-red-50 text-red-600 rounded-xl text-sm flex items-center gap-2 border border-red-100"
+          className="p-3 bg-red-500/10 text-red-600 rounded-xl text-sm flex items-center gap-2 border border-red-100"
           initial={{ opacity: 0 }} animate={{ opacity: 1 }}
         >
           <span>⚠️</span> {error}
@@ -410,7 +410,7 @@ const UserManagement = () => {
         title="Members"
         icon="🏃"
         addLabel="Member"
-        accentClass="bg-indigo-600 hover:bg-indigo-700"
+        accentClass="bg-black hover:bg-[#1C1C1C]"
         items={members}
         type="user"
         loading={loading}
@@ -470,7 +470,7 @@ const UserManagement = () => {
         />
       )}
       {modal?.type === 'delete' && modalError && (
-        <div className="fixed bottom-4 right-4 bg-red-50 border border-red-200 text-red-600 text-sm px-4 py-2 rounded-xl z-[60]">
+        <div className="fixed bottom-4 right-4 bg-red-500/10 border border-red-200 text-red-600 text-sm px-4 py-2 rounded-xl z-[60]">
           {modalError}
         </div>
       )}

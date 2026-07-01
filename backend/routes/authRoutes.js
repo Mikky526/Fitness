@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const { registerUser, authUser } = require('../controllers/authController');
+const { registerUser, authUser, getMe, updateProfile, sendOtp } = require('../controllers/authController');
+const { protect, authorizeRoles } = require('../middleware/authMiddleware');
+router.post('/send-otp', sendOtp);
 router.post('/register', registerUser);
 router.post('/login', authUser);
+router.get('/me', protect, authorizeRoles('user'), getMe);
+router.put('/profile', protect, authorizeRoles('user'), updateProfile);
 module.exports = router;

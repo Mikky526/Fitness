@@ -35,7 +35,7 @@ const detectBrand = (n) => {
 const FloatingParticles = ({ count = 12, colors }) => (
   <div className="absolute inset-0 overflow-hidden pointer-events-none">
     {Array.from({ length: count }).map((_, i) => {
-      const defaultColors = ['bg-indigo-300', 'bg-purple-300', 'bg-pink-300', 'bg-blue-300', 'bg-violet-300'];
+      const defaultColors = ['bg-[#33B8D4]', 'bg-[#66CCE0]', 'bg-cyan-300', 'bg-blue-300', 'bg-teal-300'];
       const palette = colors || defaultColors;
       const size = 2 + (i % 5);
       return (
@@ -53,12 +53,12 @@ const FloatingParticles = ({ count = 12, colors }) => (
 
 // ─── Success Screen ───────────────────────────────────────────────────────────
 const SuccessScreen = ({ data, onClose }) => (
-  <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+  <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center px-4">
     <motion.div
       initial={{ opacity: 0, scale: 0.85, y: 30 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ type: 'spring', damping: 20, stiffness: 200, delay: 0.1 }}
-      className="bg-white rounded-3xl p-12 text-center border border-gray-100 shadow-2xl max-w-md w-full relative overflow-hidden"
+      className="bg-white rounded-3xl p-12 text-center border border-[#E2E8F0] shadow-2xl max-w-md w-full relative overflow-hidden"
     >
       {/* Success-specific floating particles (green/emerald) */}
       <FloatingParticles
@@ -101,7 +101,7 @@ const SuccessScreen = ({ data, onClose }) => (
       </div>
 
       {/* "Payment Successful!" — word-by-word blur reveal */}
-      <motion.h2 className="text-3xl font-black bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-2">
+      <motion.h2 className="text-3xl font-black text-[#0F172A] mb-2">
         {['Payment', 'Successful!'].map((word, i) => (
           <motion.span
             key={word}
@@ -119,7 +119,7 @@ const SuccessScreen = ({ data, onClose }) => (
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.75 }}
-        className="text-gray-500 text-sm mb-6"
+        className="text-[#475569] text-sm mb-6"
       >
         Your order has been confirmed. Thank you for your purchase!
       </motion.p>
@@ -128,11 +128,11 @@ const SuccessScreen = ({ data, onClose }) => (
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.9, type: 'spring' }}
-        className="bg-gray-50 rounded-2xl p-5 text-sm space-y-2 mt-6 text-left"
+        className="bg-[#F8FAFC] rounded-2xl p-5 text-sm space-y-2 mt-6 text-left border border-[#E2E8F0]"
       >
         <div className="flex justify-between py-1">
           <span className="text-gray-500 font-medium">Transaction ID</span>
-          <span className="font-mono text-xs text-indigo-700 font-bold">{data.transactionId}</span>
+          <span className="font-mono text-xs text-[#36a8cd] font-bold">{data.transactionId}</span>
         </div>
         <div className="flex justify-between py-1">
           <span className="text-gray-500 font-medium">Card</span>
@@ -154,7 +154,7 @@ const SuccessScreen = ({ data, onClose }) => (
           <motion.div
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
-            className="px-6 py-3 rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold text-sm shadow-lg cursor-pointer text-center"
+            className="px-6 py-3 rounded-xl bg-[#36a8cd] hover:bg-[#2089ab] text-white font-bold text-sm shadow-sm cursor-pointer text-center transition-colors"
           >
             View Dashboard
           </motion.div>
@@ -163,7 +163,7 @@ const SuccessScreen = ({ data, onClose }) => (
           <motion.div
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
-            className="px-6 py-3 rounded-2xl bg-white border border-gray-200 text-gray-700 font-bold text-sm cursor-pointer hover:bg-gray-50 transition-colors text-center"
+            className="px-6 py-3 rounded-xl bg-white border border-[#E2E8F0] text-[#475569] font-bold text-sm cursor-pointer hover:bg-[#F8FAFC] transition-colors text-center"
           >
             Shop More
           </motion.div>
@@ -220,8 +220,8 @@ const CheckoutSection = ({ total, items, onSuccess }) => {
   return (
     <form onSubmit={handlePay} className="space-y-4">
       {/* Payment Details title with lock icon */}
-      <h3 className="text-base font-bold text-gray-900 mt-6 mb-4 flex items-center gap-2">
-        <span className="w-7 h-7 rounded-lg bg-indigo-100 flex items-center justify-center text-sm">🔒</span>
+      <h3 className="text-base font-bold text-[#0F172A] mt-6 mb-4 flex items-center gap-2">
+        <span className="w-7 h-7 rounded-lg bg-[#EFF9FD] flex items-center justify-center text-sm">🔒</span>
         Payment Details
       </h3>
 
@@ -258,7 +258,7 @@ const CheckoutSection = ({ total, items, onSuccess }) => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
       >
-        <label className="block text-sm font-semibold text-gray-700 mb-1.5">Card Number</label>
+        <label className="block text-sm font-semibold text-[#0F172A] mb-1.5">Card Number</label>
         <div className="relative">
           <input
             type="text"
@@ -267,7 +267,7 @@ const CheckoutSection = ({ total, items, onSuccess }) => {
             onChange={e => setCardNumber(formatCardNumber(e.target.value))}
             placeholder="1234 5678 9012 3456"
             maxLength={19}
-            className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 outline-none transition-all pr-12 font-mono tracking-widest"
+            className="w-full bg-white border border-[#E2E8F0] rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-[#36a8cd]/20 focus:border-[#36a8cd] outline-none transition-all pr-12 font-mono tracking-widest"
           />
           <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xl">{brand.icon}</span>
         </div>
@@ -280,13 +280,13 @@ const CheckoutSection = ({ total, items, onSuccess }) => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
       >
-        <label className="block text-sm font-semibold text-gray-700 mb-1.5">Cardholder Name</label>
+        <label className="block text-sm font-semibold text-[#0F172A] mb-1.5">Cardholder Name</label>
         <input
           type="text"
           value={cardName}
           onChange={e => setCardName(e.target.value.toUpperCase())}
           placeholder="JOHN DOE"
-          className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 outline-none transition-all tracking-wider"
+          className="w-full bg-white border border-[#E2E8F0] rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-[#36a8cd]/20 focus:border-[#36a8cd] outline-none transition-all tracking-wider"
         />
       </motion.div>
 
@@ -298,7 +298,7 @@ const CheckoutSection = ({ total, items, onSuccess }) => {
         className="grid grid-cols-2 gap-3"
       >
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-1.5">Expiry</label>
+          <label className="block text-sm font-semibold text-[#0F172A] mb-1.5">Expiry</label>
           <input
             type="text"
             inputMode="numeric"
@@ -306,11 +306,11 @@ const CheckoutSection = ({ total, items, onSuccess }) => {
             onChange={e => setExpiry(formatExpiry(e.target.value))}
             placeholder="MM/YY"
             maxLength={5}
-            className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 outline-none transition-all font-mono"
+            className="w-full bg-white border border-[#E2E8F0] rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-[#36a8cd]/20 focus:border-[#36a8cd] outline-none transition-all font-mono"
           />
         </div>
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-1.5">CVV</label>
+          <label className="block text-sm font-semibold text-[#0F172A] mb-1.5">CVV</label>
           <input
             type="password"
             inputMode="numeric"
@@ -318,7 +318,7 @@ const CheckoutSection = ({ total, items, onSuccess }) => {
             onChange={e => setCvv(e.target.value.replace(/\D/g, '').slice(0, 4))}
             placeholder="•••"
             maxLength={4}
-            className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 outline-none transition-all font-mono"
+            className="w-full bg-white border border-[#E2E8F0] rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-[#36a8cd]/20 focus:border-[#36a8cd] outline-none transition-all font-mono"
           />
         </div>
       </motion.div>
@@ -332,17 +332,17 @@ const CheckoutSection = ({ total, items, onSuccess }) => {
         <motion.button
           type="submit"
           disabled={loading}
-          whileHover={{ scale: 1.03, boxShadow: '0 0 0 0px rgba(99,102,241,0.5), 0 20px 50px rgba(99,102,241,0.5)' }}
+          whileHover={{ scale: 1.03, boxShadow: '0 0 0 0px rgba(54,168,205,0.5), 0 20px 50px rgba(54,168,205,0.4)' }}
           whileTap={{ scale: 0.97 }}
           animate={{
             boxShadow: [
-              '0 6px 20px rgba(99,102,241,0.35)',
-              '0 6px 35px rgba(139,92,246,0.55)',
-              '0 6px 20px rgba(99,102,241,0.35)',
+              '0 4px 15px rgba(54,168,205,0.25)',
+              '0 6px 30px rgba(54,168,205,0.45)',
+              '0 4px 15px rgba(54,168,205,0.25)',
             ]
           }}
           transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
-          className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-extrabold py-4 rounded-2xl shadow-lg shadow-indigo-200/50 hover:shadow-xl transition-all text-lg mt-4 disabled:opacity-60 disabled:cursor-not-allowed"
+          className="w-full bg-[#36a8cd] hover:bg-[#2089ab] text-white font-extrabold py-4 rounded-xl shadow-sm hover:shadow-md transition-all text-lg mt-4 disabled:opacity-60 disabled:cursor-not-allowed"
         >
           {loading ? (
             <span className="flex items-center justify-center gap-1.5">
@@ -390,7 +390,7 @@ const CartPage = () => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.4 }}
-          className="min-h-screen bg-gray-50 pb-12"
+          className="min-h-screen bg-[#F8FAFC] pb-12"
         >
           <div className="max-w-7xl mx-auto px-4 py-8">
             {/* Page Header */}
@@ -398,7 +398,7 @@ const CartPage = () => {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="bg-gradient-to-br from-slate-900 via-indigo-950 to-purple-900 rounded-3xl p-8 mb-8 flex items-center justify-between relative overflow-hidden"
+              className="bg-gradient-to-br from-[#0A0F1E] via-[#0F172A] to-[#0D1B26] rounded-3xl p-8 mb-8 flex items-center justify-between relative overflow-hidden"
             >
               {/* Floating particles */}
               <FloatingParticles count={8} />
@@ -414,17 +414,17 @@ const CartPage = () => {
               <motion.div
                 animate={{ scale: [1, 1.5, 0.8, 1.3, 1], x: [0, 40, -20, 15, 0], opacity: [0.08, 0.2, 0.05, 0.18, 0.08] }}
                 transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute top-0 right-0 w-56 h-56 bg-indigo-400 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"
+                className="absolute top-0 right-0 w-56 h-56 bg-[#36a8cd] rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"
               />
               <motion.div
                 animate={{ scale: [1, 1.5, 0.8, 1.3, 1], x: [0, -40, 20, -15, 0], opacity: [0.08, 0.2, 0.05, 0.18, 0.08] }}
                 transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 1.5 }}
-                className="absolute bottom-0 left-0 w-40 h-40 bg-purple-400 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"
+                className="absolute bottom-0 left-0 w-40 h-40 bg-[#2089ab] rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"
               />
 
               <div className="relative z-10">
                 <h1 className="text-3xl font-black text-white">Your Cart</h1>
-                <p className="text-indigo-200/80 text-sm mt-1">
+                <p className="text-[#66CCE0]/80 text-sm mt-1">
                   {count === 0 ? 'Your cart is empty' : `${count} item${count !== 1 ? 's' : ''} ready for checkout`}
                 </p>
               </div>
@@ -440,7 +440,7 @@ const CartPage = () => {
                 )}
                 {/* Item count chip */}
                 {count > 0 && (
-                  <span className="bg-white/10 border border-white/20 text-indigo-200 text-xs font-bold px-3 py-1.5 rounded-full">
+                  <span className="bg-white/10 border border-white/20 text-[#66CCE0] text-xs font-bold px-3 py-1.5 rounded-full">
                     {count} item{count !== 1 ? 's' : ''}
                   </span>
                 )}
@@ -459,7 +459,7 @@ const CartPage = () => {
                 initial={{ opacity: 0, scale: 0.85 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ type: 'spring', stiffness: 200, damping: 18 }}
-                className="bg-white rounded-3xl p-16 text-center border border-gray-100 shadow-sm"
+                className="bg-white rounded-3xl p-16 text-center border border-[#E2E8F0] shadow-sm"
               >
                 <motion.div
                   animate={{ y: [0, -15, 0], rotate: [0, -5, 5, 0] }}
@@ -468,13 +468,13 @@ const CartPage = () => {
                 >
                   🛒
                 </motion.div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">Your cart is empty</h2>
-                <p className="text-gray-500 text-sm mb-8">Browse our plans and add something to get started.</p>
+                <h2 className="text-2xl font-bold text-[#0F172A] mb-2">Your cart is empty</h2>
+                <p className="text-[#475569] text-sm mb-8">Browse our plans and add something to get started.</p>
                 <Link to="/shop">
                   <motion.div
                     whileHover={{ scale: 1.04 }}
                     whileTap={{ scale: 0.97 }}
-                    className="inline-block px-8 py-3 rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold shadow-lg shadow-indigo-200/50 cursor-pointer"
+                    className="inline-block px-8 py-3 rounded-xl bg-[#36a8cd] hover:bg-[#2089ab] text-white font-bold shadow-sm cursor-pointer transition-colors"
                   >
                     Browse Plans
                   </motion.div>
@@ -493,11 +493,11 @@ const CartPage = () => {
                         animate={{ opacity: 1, x: 0, scale: 1 }}
                         exit={{ opacity: 0, x: 100, scale: 0.8, height: 0, marginBottom: 0 }}
                         transition={{ type: 'spring', stiffness: 300, damping: 25, delay: i * 0.05 }}
-                        className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm flex items-center gap-4 mb-3"
+                        className="bg-white rounded-2xl p-5 border border-[#E2E8F0] shadow-sm flex items-center gap-4 mb-3 hover:shadow-md transition-shadow"
                       >
                         {/* Icon box */}
                         <motion.div
-                          className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-2xl flex-shrink-0"
+                          className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#36a8cd] to-[#2089ab] flex items-center justify-center text-2xl flex-shrink-0"
                           animate={{ rotate: [0, -3, 3, 0] }}
                           transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
                         >
@@ -506,20 +506,20 @@ const CartPage = () => {
 
                         {/* Details */}
                         <div className="flex-1 min-w-0">
-                          <p className="font-bold text-gray-900 truncate">{item.name}</p>
-                          <p className="text-sm text-gray-500 mt-0.5 truncate">{item.description}</p>
+                          <p className="font-bold text-[#0F172A] truncate">{item.name}</p>
+                          <p className="text-sm text-[#475569] mt-0.5 truncate">{item.description}</p>
                           <p className={`text-sm font-extrabold mt-1 bg-gradient-to-r ${item.color} bg-clip-text text-transparent`}>
                             ₹{item.price.toLocaleString('en-IN')}
                           </p>
                         </div>
 
                         {/* Qty controls */}
-                        <div className="flex items-center gap-2 bg-gray-100 rounded-xl p-1 flex-shrink-0">
+                        <div className="flex items-center gap-2 bg-[#F1F5F9] rounded-xl p-1 flex-shrink-0">
                           <motion.button
                             onClick={() => updateQty(item.id, item.quantity - 1)}
                             whileHover={{ scale: 1.2, backgroundColor: '#eef2ff' }}
                             whileTap={{ scale: 0.8 }}
-                            className="w-7 h-7 rounded-lg bg-white shadow-sm font-bold text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition-colors flex items-center justify-center"
+                            className="w-7 h-7 rounded-lg bg-white shadow-sm font-bold text-[#475569] hover:bg-[#EFF9FD] hover:text-[#36a8cd] transition-colors flex items-center justify-center"
                           >
                             −
                           </motion.button>
@@ -528,7 +528,7 @@ const CartPage = () => {
                             onClick={() => updateQty(item.id, item.quantity + 1)}
                             whileHover={{ scale: 1.2, backgroundColor: '#eef2ff' }}
                             whileTap={{ scale: 0.8 }}
-                            className="w-7 h-7 rounded-lg bg-white shadow-sm font-bold text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition-colors flex items-center justify-center"
+                            className="w-7 h-7 rounded-lg bg-white shadow-sm font-bold text-[#475569] hover:bg-[#EFF9FD] hover:text-[#36a8cd] transition-colors flex items-center justify-center"
                           >
                             +
                           </motion.button>
@@ -536,7 +536,7 @@ const CartPage = () => {
 
                         {/* Line total + remove */}
                         <div className="text-right flex-shrink-0 ml-auto">
-                          <p className="font-black text-gray-900">₹{(item.price * item.quantity).toLocaleString('en-IN')}</p>
+                          <p className="font-black text-[#0F172A]">₹{(item.price * item.quantity).toLocaleString('en-IN')}</p>
                           <motion.button
                             onClick={() => removeItem(item.id)}
                             whileHover={{ scale: 1.05 }}
@@ -557,33 +557,33 @@ const CartPage = () => {
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.5, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                    className="bg-white rounded-3xl border border-gray-100 shadow-sm p-6 sticky top-4"
+                    className="bg-white rounded-3xl border border-[#E2E8F0] shadow-sm p-6 sticky top-4"
                   >
-                    <h3 className="text-lg font-bold text-gray-900 mb-6">Order Summary</h3>
+                    <h3 className="text-lg font-bold text-[#0F172A] mb-6">Order Summary</h3>
 
                     <div className="space-y-1">
                       {items.map(item => (
-                        <div key={item.id} className="flex justify-between py-2 border-b border-gray-100 text-sm text-gray-600">
+                        <div key={item.id} className="flex justify-between py-2 border-b border-[#E2E8F0] text-sm text-[#475569]">
                           <span className="flex-1 truncate mr-2">{item.name} × {item.quantity}</span>
-                          <span className="font-semibold text-gray-800 flex-shrink-0">₹{(item.price * item.quantity).toLocaleString('en-IN')}</span>
+                          <span className="font-semibold text-[#0F172A] flex-shrink-0">₹{(item.price * item.quantity).toLocaleString('en-IN')}</span>
                         </div>
                       ))}
 
-                      <div className="flex justify-between py-2 border-b border-gray-100 text-sm text-gray-600">
+                      <div className="flex justify-between py-2 border-b border-[#E2E8F0] text-sm text-[#475569]">
                         <span>Subtotal</span>
                         <span>₹{subtotal.toLocaleString('en-IN')}</span>
                       </div>
-                      <div className="flex justify-between py-2 border-b border-gray-100 text-sm text-gray-600">
+                      <div className="flex justify-between py-2 border-b border-[#E2E8F0] text-sm text-[#475569]">
                         <span>GST (18%)</span>
                         <span>₹{Math.round(tax).toLocaleString('en-IN')}</span>
                       </div>
                     </div>
 
-                    <div className="border-t-2 border-gray-100 my-4" />
+                    <div className="border-t-2 border-[#E2E8F0] my-4" />
 
                     <div className="flex justify-between items-center">
-                      <span className="font-bold text-gray-900">Total</span>
-                      <span className="text-2xl font-black bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                      <span className="font-bold text-[#0F172A]">Total</span>
+                      <span className="text-2xl font-black text-[#36a8cd]">
                         <motion.span
                           key={total}
                           initial={{ scale: 1.2, color: '#6366f1' }}
