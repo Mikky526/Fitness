@@ -8,16 +8,11 @@ connectDB();
 
 const app = express();
 
-// CORS — allow localhost in development, production URLs when deployed
+// CORS — allow any localhost / 127.0.0.1 origin in development
 app.use(cors({
   origin: (origin, callback) => {
-    const allowedOrigins = [
-      /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/,
-      /^https:\/\/.*\.onrender\.com$/,
-      /^https:\/\/.*\.vercel\.app$/
-    ];
-    
-    if (!origin || allowedOrigins.some(pattern => pattern.test(origin))) {
+    // Allow requests with no origin (curl, Postman) or any localhost port
+    if (!origin || /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
@@ -29,11 +24,6 @@ app.use(cors({
 }));
 
 app.use(express.json()); 
-
-// Root endpoint
-app.get('/', (req, res) => {
-  res.json({ message: 'Fitness Management API is running 🏋️', status: 'OK' });
-});
 
 app.use('/api/auth',     require('./routes/authRoutes'));
 app.use('/api/products', require('./routes/productRoutes'));
