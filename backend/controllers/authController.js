@@ -4,42 +4,32 @@ const Admin = require('../models/Admin');
 const Otp = require('../models/Otp');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const nodemailer = require('nodemailer');
-const dns = require('dns');
-const { promisify } = require('util');
-
-const resolve4 = promisify(dns.resolve4);
 
 const generateToken = (id) => jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' });
 
-// nodemailer's `family` option is not honored by its SMTP connection logic: it always
-// resolves both A/AAAA records and, on failure, falls back to retrying the other
-// addresses it found - including IPv6 ones. Render's containers can't route IPv6
-// egress, so that fallback fails with ENETUNREACH. Resolving the IPv4 address
-// ourselves and connecting to it directly avoids nodemailer ever seeing an AAAA record.
-const makeTransporter = async () => {
-  let host = 'smtp.gmail.com';
-  try {
-    const addresses = await resolve4('smtp.gmail.com');
-    if (addresses.length) host = addresses[0];
-  } catch {
-    // fall back to the hostname if DNS resolution fails here too
-  }
-
-  return nodemailer.createTransport({
-    host,
-    port: 465,
-    secure: true,
-    tls: {
-      // required when connecting by IP so the certificate check still matches Gmail's cert
-      servername: 'smtp.gmail.com',
+// Render's free tier blocks outbound traffic on SMTP ports (25/465/587), so direct
+// SMTP (e.g. nodemailer + Gmail) can never connect from there. Brevo's HTTP API sends
+// over plain HTTPS instead, which isn't blocked.
+const sendViaBrevo = async ({ to, subject, text, html }) => {
+  const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'api-key': process.env.BREVO_API_KEY,
     },
-    auth: {
-      user: process.env.EMAIL_USER?.trim(),
-      // Gmail app passwords are sometimes stored with spaces for readability.
-      pass: process.env.EMAIL_PASS?.replace(/\s+/g, ''),
-    },
+    body: JSON.stringify({
+      sender: { name: 'Fitness Manager', email: process.env.EMAIL_USER.trim() },
+      to: [{ email: to }],
+      subject,
+      textContent: text,
+      htmlContent: html,
+    }),
   });
+
+  if (!response.ok) {
+    const body = await response.text();
+    throw new Error(`Brevo API error ${response.status}: ${body}`);
+  }
 };
 
 exports.sendOtp = async (req, res) => {
@@ -53,15 +43,12 @@ exports.sendOtp = async (req, res) => {
     await Otp.create({ email, code });
 
     const emailConfigured =
+      process.env.BREVO_API_KEY &&
       process.env.EMAIL_USER &&
-      process.env.EMAIL_PASS &&
-      process.env.EMAIL_USER !== 'your_gmail@gmail.com' &&
-      process.env.EMAIL_PASS !== 'your_app_password_here';
+      process.env.EMAIL_USER !== 'your_gmail@gmail.com';
 
     if (emailConfigured) {
-      const transporter = await makeTransporter();
-      await transporter.sendMail({
-        from: `"Fitness Manager" <${process.env.EMAIL_USER}>`,
+      await sendViaBrevo({
         to: email,
         subject: `${code} is your Fitness Manager verification code`,
         text: `Your Fitness Manager verification code is: ${code}\n\nThis code expires in 10 minutes. Do not share it with anyone.\n\nIf you did not request this, please ignore this email.`,
@@ -94,10 +81,6 @@ exports.sendOtp = async (req, res) => {
   </table>
 </body>
 </html>`,
-        headers: {
-          'X-Priority': '1',
-          'X-Mailer': 'Fitness Manager Mailer',
-        },
       });
       console.log(`OTP sent via email to ${email}`);
     } else {
