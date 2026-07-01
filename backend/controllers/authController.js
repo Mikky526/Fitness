@@ -11,7 +11,11 @@ const generateToken = (id) => jwt.sign({ id }, process.env.JWT_SECRET, { expires
 const makeTransporter = () =>
   nodemailer.createTransport({
     service: 'gmail',
-    auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
+    auth: {
+      user: process.env.EMAIL_USER?.trim(),
+      // Gmail app passwords are sometimes stored with spaces for readability.
+      pass: process.env.EMAIL_PASS?.replace(/\s+/g, ''),
+    },
   });
 
 exports.sendOtp = async (req, res) => {
