@@ -10,7 +10,10 @@ const generateToken = (id) => jwt.sign({ id }, process.env.JWT_SECRET, { expires
 
 const makeTransporter = () =>
   nodemailer.createTransport({
-    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    family: 4,
     auth: {
       user: process.env.EMAIL_USER?.trim(),
       // Gmail app passwords are sometimes stored with spaces for readability.
