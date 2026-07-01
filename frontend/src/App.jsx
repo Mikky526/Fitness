@@ -35,7 +35,7 @@ function App() {
 
               {/* Member-only */}
               <Route path="/user/dashboard" element={
-                <ProtectedRoute allowedRoles={['user']}>
+                <ProtectedRoute allowedRoles={['user']} requirePurchase>
                   <Wrap><UserDashboard /></Wrap>
                 </ProtectedRoute>
               } />

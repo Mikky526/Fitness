@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const { processDummyPayment, getMyPayments, getAllPayments } = require('../controllers/paymentController');
+const { processDummyPayment, getMyPayments, getAllPayments, getPurchaseStatus } = require('../controllers/paymentController');
 const { protect, authorizeRoles } = require('../middleware/authMiddleware');
 
 router.post('/pay',     protect, authorizeRoles('user'), processDummyPayment);
 router.get('/my',       protect, authorizeRoles('user'), getMyPayments);
+router.get('/status',   protect, authorizeRoles('user'), getPurchaseStatus);
 router.get('/all',      protect, authorizeRoles('admin'), getAllPayments);
 
 module.exports = router;

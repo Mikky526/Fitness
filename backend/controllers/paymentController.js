@@ -60,6 +60,16 @@ exports.processDummyPayment = async (req, res) => {
   }
 };
 
+// Member: whether they've completed at least one purchase (gates dashboard access)
+exports.getPurchaseStatus = async (req, res) => {
+  try {
+    const hasPurchased = await Payment.exists({ user: req.user._id, status: 'succeeded' });
+    res.json({ hasPurchased: !!hasPurchased });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to fetch purchase status' });
+  }
+};
+
 // Member gets their own payment / order history
 exports.getMyPayments = async (req, res) => {
   try {
