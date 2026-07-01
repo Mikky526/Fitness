@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+      const baseUrl = import.meta.env.VITE_API_URL || 'https://fitness-nmmf.onrender.com/api';
       const { data } = await axios.post(`${baseUrl}/auth/login`, { email, password });
       setUser(data);
       Cookies.set(COOKIE_NAME, JSON.stringify(data), { expires: COOKIE_EXPIRES });

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-const API_URL = `${import.meta.env.VITE_API_URL || 'http://localhost:5001/api'}/workouts/`;
+const API_URL = `${import.meta.env.VITE_API_URL || 'https://fitness-nmmf.onrender.com/api'}/workouts/`;
 
 const getAuthHeaders = () => {
   const userInfoStr = Cookies.get('userInfo');

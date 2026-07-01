@@ -4,7 +4,7 @@ import UserManagement from '../components/UserManagement';
 import Cookies from 'js-cookie';
 import { useCart } from '../context/CartContext';
 
-const API = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+const API = import.meta.env.VITE_API_URL || 'https://fitness-nmmf.onrender.com/api';
 
 const getAuthHeader = () => {
   const info = Cookies.get('userInfo');

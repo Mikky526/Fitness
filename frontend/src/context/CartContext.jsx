@@ -3,7 +3,7 @@ import React, { createContext, useContext, useState, useEffect, useCallback } fr
 const CartContext = createContext(null);
 
 const STORAGE_KEY = 'fitness_cart';
-const API = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+const API = import.meta.env.VITE_API_URL || 'https://fitness-nmmf.onrender.com/api';
 
 export const CartProvider = ({ children }) => {
   const [products, setProducts] = useState([]);

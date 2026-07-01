@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-const API = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+const API = import.meta.env.VITE_API_URL || 'https://fitness-nmmf.onrender.com/api';
 
 const getAuthHeader = () => {
   const info = Cookies.get('userInfo');

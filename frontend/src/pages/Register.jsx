@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Cookies from 'js-cookie';
 
 const EASE = [0.22, 1, 0.36, 1];
-const API = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+const API = import.meta.env.VITE_API_URL || 'https://fitness-nmmf.onrender.com/api';
 
 const Register = () => {
   const [name, setName] = useState('');
