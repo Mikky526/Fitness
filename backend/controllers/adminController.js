@@ -117,6 +117,17 @@ exports.getAllAppointments = async (req, res) => {
   }
 };
 
+exports.deleteAppointment = async (req, res) => {
+  try {
+    const appointment = await Appointment.findById(req.params.id);
+    if (!appointment) return res.status(404).json({ message: 'Appointment not found' });
+    await appointment.deleteOne();
+    res.json({ message: 'Appointment deleted' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 exports.verifyTrainer = async (req, res) => {
   try {
     const trainer = await Trainer.findByIdAndUpdate(req.params.id, { isVerified: true }, { new: true }).select('-password');

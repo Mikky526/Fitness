@@ -77,8 +77,62 @@ const Badge = ({ label }) => (
   </span>
 );
 
+// ─── Inline action: set a new password ────────────────────────────────────────
+const PasswordAction = ({ id, onSubmit }) => {
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState('');
+  const [saving, setSaving] = useState(false);
+
+  if (!open) {
+    return (
+      <button
+        onClick={() => setOpen(true)}
+        className="px-2.5 py-1 rounded-lg text-white text-xs font-semibold bg-slate-500 hover:bg-slate-600 transition-colors"
+      >
+        Set Password
+      </button>
+    );
+  }
+
+  const submit = async () => {
+    if (!value.trim() || saving) return;
+    setSaving(true);
+    await onSubmit(id, value.trim());
+    setSaving(false);
+    setOpen(false);
+    setValue('');
+  };
+
+  return (
+    <div className="flex items-center gap-1">
+      <input
+        type="password"
+        autoFocus
+        value={value}
+        onChange={e => setValue(e.target.value)}
+        onKeyDown={e => e.key === 'Enter' && submit()}
+        placeholder="New password"
+        className="w-28 px-2 py-1 text-xs rounded-lg border border-[#E2E8F0] focus:outline-none focus:ring-1 focus:ring-[#36a8cd]"
+      />
+      <button
+        onClick={submit}
+        disabled={saving || !value.trim()}
+        className="px-2 py-1 rounded-lg text-white text-xs font-semibold bg-emerald-500 hover:bg-emerald-600 disabled:opacity-50 transition-colors"
+      >
+        {saving ? '…' : 'Save'}
+      </button>
+      <button
+        onClick={() => { setOpen(false); setValue(''); }}
+        className="px-2 py-1 rounded-lg text-xs font-semibold text-gray-400 hover:text-gray-600 transition-colors"
+      >
+        ✕
+      </button>
+    </div>
+  );
+};
+
 // ─── Detail panel: Members ────────────────────────────────────────────────────
-const MembersDetail = ({ items, loading, onToggleBlock }) => (
+const MembersDetail = ({ items, loading, onToggleBlock, onSetPassword }) => (
   <div className="space-y-2">
     {loading ? [1,2,3].map(i => <SkeletonRow key={i} />) : items.length === 0 ? (
       <p className="text-center text-gray-400 py-8 text-sm">No members found.</p>
@@ -95,6 +149,7 @@ const MembersDetail = ({ items, loading, onToggleBlock }) => (
         </div>
         <div className="flex items-center gap-2 flex-shrink-0">
           {m.isBlocked && <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-red-100 text-red-600 border border-red-200">Blocked</span>}
+          <PasswordAction id={m._id} onSubmit={onSetPassword} />
           <button
             onClick={() => onToggleBlock(m._id)}
             className={`px-2.5 py-1 rounded-lg text-white text-xs font-semibold transition-colors ${m.isBlocked ? 'bg-emerald-500 hover:bg-emerald-600' : 'bg-red-500 hover:bg-red-600'}`}
@@ -109,7 +164,7 @@ const MembersDetail = ({ items, loading, onToggleBlock }) => (
 );
 
 // ─── Detail panel: Trainers ───────────────────────────────────────────────────
-const TrainersDetail = ({ items, loading, onVerify, onToggleBlock }) => (
+const TrainersDetail = ({ items, loading, onVerify, onToggleBlock, onSetPassword }) => (
   <div className="space-y-2">
     {loading ? [1,2,3].map(i => <SkeletonRow key={i} />) : items.length === 0 ? (
       <p className="text-center text-gray-400 py-8 text-sm">No trainers found.</p>
@@ -135,6 +190,7 @@ const TrainersDetail = ({ items, loading, onVerify, onToggleBlock }) => (
             </button>
           )}
           {t.isBlocked && <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-red-100 text-red-600 border border-red-200">Blocked</span>}
+          <PasswordAction id={t._id} onSubmit={onSetPassword} />
           <button
             onClick={() => onToggleBlock(t._id)}
             className={`px-2.5 py-1 rounded-lg text-white text-xs font-semibold transition-colors ${t.isBlocked ? 'bg-emerald-500 hover:bg-emerald-600' : 'bg-red-500 hover:bg-red-600'}`}
@@ -148,7 +204,7 @@ const TrainersDetail = ({ items, loading, onVerify, onToggleBlock }) => (
 );
 
 // ─── Detail panel: Appointments ───────────────────────────────────────────────
-const AppointmentsDetail = ({ items, loading }) => (
+const AppointmentsDetail = ({ items, loading, onDelete }) => (
   <div className="space-y-2">
     {loading ? [1,2,3].map(i => <SkeletonRow key={i} />) : items.length === 0 ? (
       <p className="text-center text-gray-400 py-8 text-sm">No appointments found.</p>
@@ -170,6 +226,12 @@ const AppointmentsDetail = ({ items, loading }) => (
         <div className="flex items-center gap-2 flex-shrink-0">
           {a.isPaid && <Badge label="succeeded" />}
           <Badge label={a.status} />
+          <button
+            onClick={() => onDelete(a._id)}
+            className="px-2.5 py-1 rounded-lg text-white text-xs font-semibold bg-red-500 hover:bg-red-600 transition-colors"
+          >
+            Delete
+          </button>
         </div>
       </motion.div>
     ))}
@@ -426,6 +488,43 @@ const AdminDashboard = () => {
     }
   }, []);
 
+  const handleSetMemberPassword = useCallback(async (memberId, password) => {
+    try {
+      const res = await fetch(`${API}/admin/members/${memberId}`, {
+        method: 'PUT',
+        headers: { ...getAuthHeader(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password }),
+      });
+      if (!res.ok) throw new Error('Password update failed');
+    } catch (err) {
+      setDetailError(err.message);
+    }
+  }, []);
+
+  const handleSetTrainerPassword = useCallback(async (trainerId, password) => {
+    try {
+      const res = await fetch(`${API}/admin/trainers/${trainerId}`, {
+        method: 'PUT',
+        headers: { ...getAuthHeader(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password }),
+      });
+      if (!res.ok) throw new Error('Password update failed');
+    } catch (err) {
+      setDetailError(err.message);
+    }
+  }, []);
+
+  const handleDeleteAppointment = useCallback(async (appointmentId) => {
+    if (!window.confirm('Delete this appointment? This cannot be undone.')) return;
+    try {
+      const res = await fetch(`${API}/admin/appointments/${appointmentId}`, { method: 'DELETE', headers: getAuthHeader() });
+      if (!res.ok) throw new Error('Delete failed');
+      setAppointments(prev => prev.filter(a => a._id !== appointmentId));
+    } catch (err) {
+      setDetailError(err.message);
+    }
+  }, []);
+
   const handleToggleBlockTrainer = useCallback(async (trainerId) => {
     try {
       const res = await fetch(`${API}/admin/trainers/${trainerId}/block`, { method: 'PUT', headers: getAuthHeader() });
@@ -606,9 +705,9 @@ const AdminDashboard = () => {
                     </div>
                   )}
                   <div className="p-4 max-h-96 overflow-y-auto">
-                    {activeCard === 'members'      && <MembersDetail      items={members}      loading={detailLoading} onToggleBlock={handleToggleBlockMember} />}
-                    {activeCard === 'trainers'     && <TrainersDetail     items={trainers}     loading={detailLoading} onVerify={handleVerify} onToggleBlock={handleToggleBlockTrainer} />}
-                    {activeCard === 'appointments' && <AppointmentsDetail items={appointments} loading={detailLoading} />}
+                    {activeCard === 'members'      && <MembersDetail      items={members}      loading={detailLoading} onToggleBlock={handleToggleBlockMember} onSetPassword={handleSetMemberPassword} />}
+                    {activeCard === 'trainers'     && <TrainersDetail     items={trainers}     loading={detailLoading} onVerify={handleVerify} onToggleBlock={handleToggleBlockTrainer} onSetPassword={handleSetTrainerPassword} />}
+                    {activeCard === 'appointments' && <AppointmentsDetail items={appointments} loading={detailLoading} onDelete={handleDeleteAppointment} />}
                     {activeCard === 'revenue'      && <RevenueDetail      items={payments}     loading={detailLoading} />}
                   </div>
                 </div>

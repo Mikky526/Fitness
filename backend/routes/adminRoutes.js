@@ -4,7 +4,7 @@ const {
   getAllUsers,
   createMember, updateMember, deleteMember, toggleBlockMember,
   createTrainer, updateTrainer, deleteTrainer, toggleBlockTrainer,
-  verifyTrainer, getPlatformStats, getAllAppointments,
+  verifyTrainer, getPlatformStats, getAllAppointments, deleteAppointment,
 } = require('../controllers/adminController');
 const { protect, authorizeRoles } = require('../middleware/authMiddleware');
 
@@ -12,7 +12,8 @@ const adminOnly = [protect, authorizeRoles('admin')];
 
 router.get('/users',   protect, authorizeRoles('admin', 'trainer'), getAllUsers);
 router.get('/stats',        ...adminOnly, getPlatformStats);
-router.get('/appointments', ...adminOnly, getAllAppointments);
+router.get('/appointments',    ...adminOnly, getAllAppointments);
+router.delete('/appointments/:id', ...adminOnly, deleteAppointment);
 
 // Members
 router.post('/members',             ...adminOnly, createMember);
