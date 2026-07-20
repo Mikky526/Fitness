@@ -111,7 +111,7 @@ const Navbar = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
               >
-                <NavLink to="/shop" dark={dark} label="Shop" />
+                 <NavLink to="/shop" dark={dark} label="Choose Your Plan" />
               </motion.div>
 
               <motion.div
@@ -261,7 +261,7 @@ const Navbar = () => {
                   onClick={() => setMenuOpen(false)}
                   className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-[#475569] font-semibold text-sm hover:bg-[#EFF9FD] hover:text-[#36a8cd] transition-colors"
                 >
-                  Shop
+                  Choose Your Plan
                 </Link>
                 <Link
                   to="/cart"
