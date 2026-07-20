@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence, useMotionValue, useTransform, useSpring, useInView } from 'framer-motion';
 import { useCart } from '../context/CartContext';
 
@@ -79,15 +79,15 @@ const FloatingParticles = ({ count = 12 }) => (
 
 // ─── ProductCard ──────────────────────────────────────────────────────────────
 const ProductCard = ({ product, index }) => {
-  const { addItem, items } = useCart();
-  const [added, setAdded] = useState(false);
-  const inCart = items.some(i => i.id === product.id);
+  const navigate = useNavigate();
   const typeInfo = TYPE_LABELS[product.type] || { label: product.type, color: 'bg-gray-100 text-gray-600' };
 
-  const handleAdd = () => {
-    addItem(product);
-    setAdded(true);
-    setTimeout(() => setAdded(false), 1800);
+  const handleBuyNow = () => {
+    navigate('/checkout', {
+      state: {
+        directItem: { ...product, quantity: 1 },
+      },
+    });
   };
 
   return (
@@ -143,31 +143,18 @@ const ProductCard = ({ product, index }) => {
           </motion.div>
 
           <AnimatePresence mode="wait">
-            {added ? (
-              <motion.div
-                key="added"
-                initial={{ scale: 0, rotate: -10 }}
-                animate={{ scale: 1, rotate: 0 }}
-                exit={{ scale: 0.8, opacity: 0 }}
-                transition={{ type: 'spring', stiffness: 500, damping: 20 }}
-                className="w-full bg-[#10B981] text-white font-bold py-3 rounded-xl shadow-md flex items-center justify-center gap-2 mt-4"
-              >
-                <span>✓</span> Added!
-              </motion.div>
-            ) : (
-              <motion.button
-                key="add"
-                initial={{ scale: 0.95, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.95, opacity: 0 }}
-                whileHover={{ scale: 1.05, boxShadow: '0 10px 30px rgba(0,0,0,0.2)' }}
-                whileTap={{ scale: 0.95 }}
-                onClick={handleAdd}
-                className="w-full bg-[#36a8cd] hover:bg-[#2089ab] text-white font-bold py-3 rounded-xl shadow-sm hover:shadow-md transition-all mt-4"
-              >
-                {inCart ? '+ Add More' : 'Add to Cart'}
-              </motion.button>
-            )}
+            <motion.button
+              key="buy-now"
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              whileHover={{ scale: 1.05, boxShadow: '0 10px 30px rgba(0,0,0,0.2)' }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleBuyNow}
+              className="w-full bg-[#36a8cd] hover:bg-[#2089ab] text-white font-bold py-3 rounded-xl shadow-sm hover:shadow-md transition-all mt-4"
+            >
+              Buy Now
+            </motion.button>
           </AnimatePresence>
         </div>
       </motion.div>
@@ -177,7 +164,7 @@ const ProductCard = ({ product, index }) => {
 
 // ─── ShopPage ─────────────────────────────────────────────────────────────────
 const ShopPage = () => {
-  const { count, products, productsLoading } = useCart();
+  const { products, productsLoading } = useCart();
   const [filter, setFilter] = useState('all');
 
   const filtered = filter === 'all' ? products : products.filter(p => p.type === filter);
@@ -250,30 +237,6 @@ const ShopPage = () => {
             <p className="text-[#66CCE0]/80 text-sm mt-2">Choose a plan that fits your goals. All purchases are instant.</p>
           </div>
 
-          {/* Cart chip */}
-          <Link to="/cart">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.5 }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.96 }}
-              className="flex items-center gap-3 bg-white/10 border border-white/20 backdrop-blur-sm text-white font-bold px-5 py-3 rounded-2xl hover:bg-white/20 transition-all"
-            >
-              <span className="text-lg">🛒</span>
-              <span>View Cart</span>
-              {count > 0 && (
-                <motion.span
-                  key={count}
-                  initial={{ scale: 0.5 }}
-                  animate={{ scale: 1 }}
-                  className="w-6 h-6 rounded-full bg-[#36a8cd] text-white text-xs font-extrabold flex items-center justify-center"
-                >
-                  {count}
-                </motion.span>
-              )}
-            </motion.div>
-          </Link>
         </div>
       </motion.div>
 

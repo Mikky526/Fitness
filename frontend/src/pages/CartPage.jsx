@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence, useMotionValue, useTransform, useSpring, useInView } from 'framer-motion';
 import { useCart } from '../context/CartContext';
 import axios from 'axios';
@@ -370,10 +370,27 @@ const CheckoutSection = ({ total, items, onSuccess }) => {
 const CartPage = () => {
   const { items, removeItem, updateQty, clearCart, subtotal, tax, total, count } = useCart();
   const [successData, setSuccessData] = useState(null);
+  const location = useLocation();
   const navigate = useNavigate();
 
+  const directItem = location.state?.directItem
+    ? { ...location.state.directItem, quantity: location.state.directItem.quantity || 1 }
+    : null;
+  const directCheckout = Boolean(directItem);
+  const checkoutItems = directCheckout ? [directItem] : items;
+  const checkoutCount = directCheckout
+    ? checkoutItems.reduce((sum, item) => sum + item.quantity, 0)
+    : count;
+  const checkoutSubtotal = directCheckout
+    ? checkoutItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
+    : subtotal;
+  const checkoutTax = directCheckout ? checkoutSubtotal * 0.18 : tax;
+  const checkoutTotal = directCheckout ? checkoutSubtotal + checkoutTax : total;
+
   const handleSuccess = (data) => {
-    clearCart();
+    if (!directCheckout) {
+      clearCart();
+    }
     setSuccessData(data);
   };
 
@@ -423,14 +440,16 @@ const CartPage = () => {
               />
 
               <div className="relative z-10">
-                <h1 className="text-3xl font-black text-white">Your Cart</h1>
+                <h1 className="text-3xl font-black text-white">{directCheckout ? 'Checkout' : 'Your Cart'}</h1>
                 <p className="text-[#66CCE0]/80 text-sm mt-1">
-                  {count === 0 ? 'Your cart is empty' : `${count} item${count !== 1 ? 's' : ''} ready for checkout`}
+                  {checkoutCount === 0
+                    ? (directCheckout ? 'Choose a plan to continue.' : 'Your cart is empty')
+                    : `${checkoutCount} item${checkoutCount !== 1 ? 's' : ''} ready for checkout`}
                 </p>
               </div>
 
               <div className="relative z-10 flex items-center gap-3">
-                {items.length > 0 && (
+                {!directCheckout && items.length > 0 && (
                   <button
                     onClick={clearCart}
                     className="text-sm text-rose-300 hover:text-rose-200 font-semibold px-3 py-2 rounded-xl hover:bg-white/10 transition-colors"
@@ -439,22 +458,22 @@ const CartPage = () => {
                   </button>
                 )}
                 {/* Item count chip */}
-                {count > 0 && (
+                {checkoutCount > 0 && (
                   <span className="bg-white/10 border border-white/20 text-[#66CCE0] text-xs font-bold px-3 py-1.5 rounded-full">
-                    {count} item{count !== 1 ? 's' : ''}
+                    {checkoutCount} item{checkoutCount !== 1 ? 's' : ''}
                   </span>
                 )}
                 <Link
                   to="/shop"
                   className="bg-white/10 border border-white/20 text-white text-sm font-semibold px-4 py-2 rounded-xl hover:bg-white/20 transition-colors"
                 >
-                  ← Continue Shopping
+                  {directCheckout ? '← Back to Plans' : '← Continue Shopping'}
                 </Link>
               </div>
             </motion.div>
 
             {/* Empty Cart */}
-            {items.length === 0 ? (
+            {checkoutItems.length === 0 ? (
               <motion.div
                 initial={{ opacity: 0, scale: 0.85 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -468,8 +487,10 @@ const CartPage = () => {
                 >
                   🛒
                 </motion.div>
-                <h2 className="text-2xl font-bold text-[#0F172A] mb-2">Your cart is empty</h2>
-                <p className="text-[#475569] text-sm mb-8">Browse our plans and add something to get started.</p>
+                <h2 className="text-2xl font-bold text-[#0F172A] mb-2">{directCheckout ? 'No plan selected' : 'Your cart is empty'}</h2>
+                <p className="text-[#475569] text-sm mb-8">
+                  {directCheckout ? 'Go back and choose a plan to continue to payment.' : 'Browse our plans and add something to get started.'}
+                </p>
                 <Link to="/shop">
                   <motion.div
                     whileHover={{ scale: 1.04 }}
@@ -485,7 +506,7 @@ const CartPage = () => {
                 {/* Cart Items — left column */}
                 <div className="lg:col-span-3 space-y-3">
                   <AnimatePresence>
-                    {items.map((item, i) => (
+                    {checkoutItems.map((item, i) => (
                       <motion.div
                         key={item.id}
                         layout
@@ -513,37 +534,45 @@ const CartPage = () => {
                           </p>
                         </div>
 
-                        {/* Qty controls */}
-                        <div className="flex items-center gap-2 bg-[#F1F5F9] rounded-xl p-1 flex-shrink-0">
-                          <motion.button
-                            onClick={() => updateQty(item.id, item.quantity - 1)}
-                            whileHover={{ scale: 1.2, backgroundColor: '#eef2ff' }}
-                            whileTap={{ scale: 0.8 }}
-                            className="w-7 h-7 rounded-lg bg-white shadow-sm font-bold text-[#475569] hover:bg-[#EFF9FD] hover:text-[#36a8cd] transition-colors flex items-center justify-center"
-                          >
-                            −
-                          </motion.button>
-                          <span className="w-8 text-center font-bold text-sm text-gray-800">{item.quantity}</span>
-                          <motion.button
-                            onClick={() => updateQty(item.id, item.quantity + 1)}
-                            whileHover={{ scale: 1.2, backgroundColor: '#eef2ff' }}
-                            whileTap={{ scale: 0.8 }}
-                            className="w-7 h-7 rounded-lg bg-white shadow-sm font-bold text-[#475569] hover:bg-[#EFF9FD] hover:text-[#36a8cd] transition-colors flex items-center justify-center"
-                          >
-                            +
-                          </motion.button>
-                        </div>
+                        {directCheckout ? (
+                          <div className="flex items-center gap-2 bg-[#F1F5F9] rounded-xl px-3 py-2 flex-shrink-0">
+                            <span className="text-xs font-semibold uppercase tracking-wide text-[#64748B]">Qty</span>
+                            <span className="font-bold text-sm text-[#0F172A]">{item.quantity}</span>
+                          </div>
+                        ) : (
+                          <div className="flex items-center gap-2 bg-[#F1F5F9] rounded-xl p-1 flex-shrink-0">
+                            <motion.button
+                              onClick={() => updateQty(item.id, item.quantity - 1)}
+                              whileHover={{ scale: 1.2, backgroundColor: '#eef2ff' }}
+                              whileTap={{ scale: 0.8 }}
+                              className="w-7 h-7 rounded-lg bg-white shadow-sm font-bold text-[#475569] hover:bg-[#EFF9FD] hover:text-[#36a8cd] transition-colors flex items-center justify-center"
+                            >
+                              −
+                            </motion.button>
+                            <span className="w-8 text-center font-bold text-sm text-gray-800">{item.quantity}</span>
+                            <motion.button
+                              onClick={() => updateQty(item.id, item.quantity + 1)}
+                              whileHover={{ scale: 1.2, backgroundColor: '#eef2ff' }}
+                              whileTap={{ scale: 0.8 }}
+                              className="w-7 h-7 rounded-lg bg-white shadow-sm font-bold text-[#475569] hover:bg-[#EFF9FD] hover:text-[#36a8cd] transition-colors flex items-center justify-center"
+                            >
+                              +
+                            </motion.button>
+                          </div>
+                        )}
 
                         {/* Line total + remove */}
                         <div className="text-right flex-shrink-0 ml-auto">
                           <p className="font-black text-[#0F172A]">₹{(item.price * item.quantity).toLocaleString('en-IN')}</p>
-                          <motion.button
-                            onClick={() => removeItem(item.id)}
-                            whileHover={{ scale: 1.05 }}
-                            className="text-rose-500 text-xs font-semibold hover:text-rose-700 mt-1 transition-colors"
-                          >
-                            Remove
-                          </motion.button>
+                          {!directCheckout && (
+                            <motion.button
+                              onClick={() => removeItem(item.id)}
+                              whileHover={{ scale: 1.05 }}
+                              className="text-rose-500 text-xs font-semibold hover:text-rose-700 mt-1 transition-colors"
+                            >
+                              Remove
+                            </motion.button>
+                          )}
                         </div>
                       </motion.div>
                     ))}
@@ -562,7 +591,7 @@ const CartPage = () => {
                     <h3 className="text-lg font-bold text-[#0F172A] mb-6">Order Summary</h3>
 
                     <div className="space-y-1">
-                      {items.map(item => (
+                      {checkoutItems.map(item => (
                         <div key={item.id} className="flex justify-between py-2 border-b border-[#E2E8F0] text-sm text-[#475569]">
                           <span className="flex-1 truncate mr-2">{item.name} × {item.quantity}</span>
                           <span className="font-semibold text-[#0F172A] flex-shrink-0">₹{(item.price * item.quantity).toLocaleString('en-IN')}</span>
@@ -571,11 +600,11 @@ const CartPage = () => {
 
                       <div className="flex justify-between py-2 border-b border-[#E2E8F0] text-sm text-[#475569]">
                         <span>Subtotal</span>
-                        <span>₹{subtotal.toLocaleString('en-IN')}</span>
+                        <span>₹{checkoutSubtotal.toLocaleString('en-IN')}</span>
                       </div>
                       <div className="flex justify-between py-2 border-b border-[#E2E8F0] text-sm text-[#475569]">
                         <span>GST (18%)</span>
-                        <span>₹{Math.round(tax).toLocaleString('en-IN')}</span>
+                        <span>₹{Math.round(checkoutTax).toLocaleString('en-IN')}</span>
                       </div>
                     </div>
 
@@ -585,19 +614,19 @@ const CartPage = () => {
                       <span className="font-bold text-[#0F172A]">Total</span>
                       <span className="text-2xl font-black text-[#36a8cd]">
                         <motion.span
-                          key={total}
+                          key={checkoutTotal}
                           initial={{ scale: 1.2, color: '#6366f1' }}
                           animate={{ scale: 1, color: 'inherit' }}
                           transition={{ type: 'spring', stiffness: 300 }}
                           className="inline-block"
                         >
-                          ₹{Math.round(total).toLocaleString('en-IN')}
+                          ₹{Math.round(checkoutTotal).toLocaleString('en-IN')}
                         </motion.span>
                       </span>
                     </div>
 
                     {/* Checkout Section inside summary card */}
-                    <CheckoutSection total={total} items={items} onSuccess={handleSuccess} />
+                    <CheckoutSection total={checkoutTotal} items={checkoutItems} onSuccess={handleSuccess} />
                   </motion.div>
                 </div>
               </div>

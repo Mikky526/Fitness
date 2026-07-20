@@ -49,6 +49,11 @@ function App() {
                   <Wrap><CartPage /></Wrap>
                 </ProtectedRoute>
               } />
+              <Route path="/checkout" element={
+                <ProtectedRoute allowedRoles={['user']}>
+                  <Wrap><CartPage /></Wrap>
+                </ProtectedRoute>
+              } />
 
               <Route path="/diet-plan" element={
                 <ProtectedRoute allowedRoles={['trainer', 'admin']}>

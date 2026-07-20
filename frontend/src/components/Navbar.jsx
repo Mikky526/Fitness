@@ -2,7 +2,6 @@ import React, { useContext, useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AuthContext } from '../context/AuthContext';
-import { useCart } from '../context/CartContext';
 
 const NavLink = ({ to, dark, label }) => {
   const [hovered, setHovered] = useState(false);
@@ -31,7 +30,6 @@ const NavLink = ({ to, dark, label }) => {
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
-  const { count } = useCart();
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -112,40 +110,6 @@ const Navbar = () => {
                 transition={{ duration: 0.4, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
               >
                  <NavLink to="/shop" dark={dark} label="Choose Your Plan" />
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: -12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-              >
-                <Link to="/cart">
-                  <motion.div
-                    whileHover={{ scale: 1.08 }}
-                    whileTap={{ scale: 0.95 }}
-                    className={`relative flex items-center gap-1.5 px-3 py-2 rounded-xl font-semibold text-sm transition-all ${
-                      dark
-                        ? 'bg-white/10 text-white hover:bg-white/20 border border-white/10'
-                        : 'bg-[#EFF9FD] text-[#36a8cd] hover:bg-[#36a8cd]/15 border border-[#36a8cd]/20'
-                    }`}
-                  >
-                    🛒
-                    <AnimatePresence>
-                      {count > 0 && (
-                        <motion.span
-                          key={count}
-                          initial={{ scale: 0.4, opacity: 0 }}
-                          animate={{ scale: [1, 1.3, 1], opacity: 1 }}
-                          exit={{ scale: 0.4, opacity: 0 }}
-                          transition={{ duration: 0.3 }}
-                          className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-rose-500 text-white text-[10px] font-extrabold flex items-center justify-center shadow-md"
-                        >
-                          {count > 9 ? '9+' : count}
-                        </motion.span>
-                      )}
-                    </AnimatePresence>
-                  </motion.div>
-                </Link>
               </motion.div>
             </>
           )}
@@ -262,18 +226,6 @@ const Navbar = () => {
                   className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-[#475569] font-semibold text-sm hover:bg-[#EFF9FD] hover:text-[#36a8cd] transition-colors"
                 >
                   Choose Your Plan
-                </Link>
-                <Link
-                  to="/cart"
-                  onClick={() => setMenuOpen(false)}
-                  className="flex items-center justify-between px-4 py-2.5 rounded-xl text-[#475569] font-semibold text-sm hover:bg-[#EFF9FD] hover:text-[#36a8cd] transition-colors"
-                >
-                  <span>Cart</span>
-                  {count > 0 && (
-                    <span className="w-6 h-6 rounded-full bg-rose-500 text-white text-xs font-extrabold flex items-center justify-center shadow-sm">
-                      {count}
-                    </span>
-                  )}
                 </Link>
               </>
             )}
